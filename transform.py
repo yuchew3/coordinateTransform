@@ -43,10 +43,10 @@ def save_img():
     cv2.imwrite("compare.png", dst)
 
 def mouse_callback(event, x, y, flags, params):
-    #right-click event value is 2
+    # click event
     if event == 1:
         global pixels
-        #store the coordinates of the right-click event
+        #store the coordinates of the click event
         pixels.append([x, y])
 
         #this just verifies that the mouse data is being collected
@@ -57,7 +57,7 @@ def get_pixels(first):
     if (first):
         img = cv2.imread("../data/tryit.png")
     else:
-        img = cv2.imread("../data/flat.png")
+        img = np.load("../data/flat_cortex_template.npy")
     scale_width = 640 / img.shape[1]
     scale_height = 480 / img.shape[0]
     scale = min(scale_width, scale_height)
