@@ -32,9 +32,9 @@ def load_video():
 def to_mp4():
     tiff_file = 'converted_short_vid.tif'
     img = io.imread(tiff_file)
-    img = (img - img.min()) / (img.max() - img.min())
-    img = np.float32(img)
-    img = cv2.cvtColor(img, cv2.GRAY2RGB)
+    img = (img - img.min()) / (img.max() - img.min()) * 255
+    img = np.uint8(img)
+#     img = cv2.cvtColor(img, cv2.GRAY2RGB)
     frames, r, c = img.shape
     writer = cv2.VideoWriter('out.avi', cv2.VideoWriter_fourcc('M','J','P','G'), 30, (c, r), isColor=False)
     for i in range(frames):
