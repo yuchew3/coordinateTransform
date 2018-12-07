@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import scipy.misc
 import matplotlib.pyplot as plt
 
 def tryit():
@@ -55,17 +56,24 @@ def mouse_callback(event, x, y, flags, params):
 
 def get_pixels(first):
     if (first):
-        img = cv2.imread("../data/tryit.png")
+        arr = np.load("slice.npy")
+        print(arr)
+        ma = arr.max()
+        mi = arr.min()
+        img = (arr - mi) / (ma - mi)
+        print(img)
+        
     else:
         img = np.load("../data/flat_cortex_template.npy")
-    scale_width = 640 / img.shape[1]
-    scale_height = 480 / img.shape[0]
-    scale = min(scale_width, scale_height)
-    window_width = int(img.shape[1] * scale)
-    window_height = int(img.shape[0] * scale)
+    print(img.shape)
+    # scale_width = 640 / img.shape[1]
+    # scale_height = 480 / img.shape[0]
+    # scale = min(scale_width, scale_height)
+    # window_width = int(img.shape[1] * scale)
+    # window_height = int(img.shape[0] * scale)
     
-    cv2.namedWindow("image", cv2.WINDOW_NORMAL)
-    cv2.resizeWindow("image", window_width, window_height)
+    cv2.namedWindow("image", cv2.WINDOW_AUTOSIZE)
+    # cv2.resizeWindow("image", window_width, window_height)
     cv2.setMouseCallback("image", mouse_callback)
     cv2.imshow("image", img)
     cv2.waitKey(0)
@@ -81,19 +89,20 @@ def transform():
     print(from_pixels)
     print(to_pixels)
 
-    img = cv2.imread("../data/sliceImage.png")
+    img = np.load("slice.npy")
+    img = (img - img.min()) / (img.max() - img.min())
     M = cv2.getPerspectiveTransform(from_pixels, to_pixels)
 
     np.save("../data/transformMatrix", M)
 
-    compare = cv2.imread("../data/flat.png")
-    r, c, _ = compare.shape
+    compare = np.load("../data/flat_cortex_template.npy")
+    r, c = compare.shape
     dst = cv2.warpPerspective(img,M,(c,r))  
-    tmp = cv2.cvtColor(dst, cv2.COLOR_BGR2GRAY)
-    _,alpha = cv2.threshold(tmp,0,255,cv2.THRESH_BINARY)
-    b, g, r = cv2.split(dst)
-    rgba = [b,g,r, alpha]
-    dst = cv2.merge(rgba,4)
+    # tmp = cv2.cvtColor(dst, cv2.COLOR_BGR2GRAY)
+    # _,alpha = cv2.threshold(tmp,0,255,cv2.THRESH_BINARY)
+    # b, g, r = cv2.split(dst)
+    # rgba = [b,g,r, alpha]
+    # dst = cv2.merge(rgba,4)
 
     plt.imshow(compare, alpha=0.5)
     plt.imshow(dst, alpha=0.9)
