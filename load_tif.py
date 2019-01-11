@@ -19,18 +19,18 @@ def save_each_frame(img):
         plt.show()
 
 def load_video():
-    tiff_file = '../data/vid.tif'
+    tiff_file = 'short_vid.tif'
     im = io.imread(tiff_file)
     return im
 
-def to_mp4(vid):
-#    tiff_file = 'converted_short_vid.tif'
-#    img = io.imread(tiff_file)
+def to_mp4():
+    tiff_file = '../data/extract_vid_abs.tif'
+    vid = io.imread(tiff_file)
     img = (vid - vid.min()) / (vid.max() - vid.min()) * 255
     img = np.uint8(img)
-#     img = cv2.cvtColor(img, cv2.GRAY2RGB)
+    # img = cv2.cvtColor(img, cv2.GRAY2RGB)
     frames, r, c = img.shape
-    writer = cv2.VideoWriter('out.avi', cv2.VideoWriter_fourcc('M','J','P','G'), 30, (c, r), isColor=False)
+    writer = cv2.VideoWriter('out_extract_abs.avi', cv2.VideoWriter_fourcc('M','J','P','G'), 30, (c, r), isColor=False)
     for i in range(frames):
         f = img[i,:,:]
         writer.write(f)
@@ -41,16 +41,34 @@ def convert_video(vid):
     matrix = np.load("matrix.npy")
     compare = np.load("../data/flat_cortex_template.npy")
     frames, r, c = vid.shape
-    new_vid = np.zeros((frames, r, c))
+    new_vid = np.zeros((frames, 1000, 1000))
     print(vid.shape)
     for i in range(frames):
-        new_vid[i, :, :] = cv2.warpPerspective(vid[i,:,:],matrix,(c,r))
-    io.imsave("../data/converted_vid.tif", new_vid)
+        new_vid[i, :, :] = cv2.warpPerspective(vid[i,:,:],matrix,(1000,1000))
+        # cv2.imshow("image",new_vid[i,:,:])
+        # cv2.waitKey(0)
+        # return
+    io.imsave("../data/converted_vid1.tif", new_vid)
     print("done!")
+
+def background_extraction():
+    tiff_file = '../data/converted_vid1.tif'
+    vid = io.imread(tiff_file)
+    img = np.average(vid, axis=0)
+    print(img.shape)
+    frames, r, c = vid.shape
+    new_vid = np.zeros(vid.shape)
+    for i in range(frames):
+        new_vid[i,:,:] = abs(vid[i,:,:] - img)
+
+    io.imsave("../data/extract_vid_abs.tif", new_vid)
+    print("done extracting background")
+
         
         
 
 if __name__ == "__main__":
-     vid = load_video()
-     convert_video(vid)
-     to_mp4(vid)
+    #  vid = load_video()
+    #  convert_video(vid)
+    background_extraction()
+    to_mp4()
