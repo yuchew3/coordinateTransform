@@ -2,6 +2,8 @@ import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 from skimage import io
+import pickle
+from scipy.sparse import csr_matrix
 
 def load_single_image():
     tiff_file = '../data/SliceImageCa7.tif'
@@ -50,6 +52,19 @@ def convert_video(vid):
     io.imsave("../data/converted_vid1.tif", new_vid)
     print("done!")
 
+def pickle_sparse_matrix():
+    vid = io.imread('../data/vid.tif')
+    matrix = np.load("../datamatrix.npy")
+    compare = np.load("../data/flat_cortex_template.npy")
+    frames, r, c = vid.shape
+
+    with open('sparse_matrix', 'wb') as f:
+        for i in range(frames):
+            new_frame = cv2.warpPerspective(vid[i,:,:],matrix,(1000,1000))
+            csr_frame = csr_matrix(new_frame)
+            pickle.dump(csr_frame, f)
+    f.close()
+
 def convert_large_video():
     vid = io.imread('../data/vid.tif')
     matrix = np.load("../data/matrix.npy")
@@ -85,20 +100,17 @@ def background_extraction():
 def overlay_template():
     # tiff_file = '../data/converted_vid1.tif'
     # vid = io.imread(tiff_file)
-    vid = np.memmap('use_large_convert.npy', shape=(40000,1000,1000), dtype=np.float32)
+
     # img = np.average(vid, axis=0)
-    img = np.load('average_img.npy')
+    ave = np.load('average_img.npy')
     frames, r, c = vid.shape
-    new_vid = np.memmap('extract.npy', mode='w+', dtype=np.float32, shape=vid.shape)
-    for i in range(frames):
-        new_vid[i,:,:] = (vid[i,:,:] - img)
     mi = np.amin(new_vid)
     ma = np.amax(new_vid)
 
     writer = cv2.VideoWriter('../data/colored_convert_vid.avi', cv2.VideoWriter_fourcc('M','J','P','G'), 30, (c, r), isColor=True)
     for i in range(frames):
         largest = max(abs(mi), abs(ma))
-        img = new_vid[i,:,:]
+        img = vid[i,:,:]-ave
         f = np.zeros((1000,1000,3))
         a, b = np.where(img>0)
         f[a, b, 0] = 255 * img[a, b] / largest
@@ -118,4 +130,5 @@ if __name__ == "__main__":
     # background_extraction()
     # to_mp4()
     # convert_large_video()
-    overlay_template()
+    # overlay_template()
+    pickle_sparse_matrix()
