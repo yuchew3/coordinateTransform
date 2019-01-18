@@ -59,8 +59,8 @@ def convert_large_video():
     for i in range(frames):
         new_vid[i,:,:] = cv2.warpPerspective(vid[i,:,:],matrix,(1000,1000))
     print("done converting")
-    ma = np.amax(new_vid)
-    mi = np.amin(new_vid)
+    ma = np.amax(new_vid) #4.18187
+    mi = np.amin(new_vid) #-0.2908125
     print("done calculating min and max")
     writer = cv2.VideoWriter('convert_vid.avi', cv2.VideoWriter_fourcc('M','J','P','G'), 30, (c, r), isColor=False)
     for i in range(frames):
@@ -82,6 +82,33 @@ def background_extraction():
     io.imsave("../data/extract_vid_abs.tif", new_vid)
     print("done extracting background")
 
+def overlay_template():
+    # tiff_file = '../data/converted_vid1.tif'
+    # vid = io.imread(tiff_file)
+    vid = np.memmap('use_large_convert.npy')
+    # img = np.average(vid, axis=0)
+    img = np.load('average_img.npy')
+    frames, r, c = vid.shape
+    new_vid = np.memmap('extract.npy', mode='w+', dtype=np.float32, shape=vid.shape)
+    for i in range(frames):
+        new_vid[i,:,:] = (vid[i,:,:] - img)
+    mi = np.amin(new_vid)
+    ma = np.amax(new_vid)
+
+    writer = cv2.VideoWriter('colored_convert_vid.avi', cv2.VideoWriter_fourcc('M','J','P','G'), 30, (c, r), isColor=True)
+    for i in range(frames):
+        largest = max(abs(mi), abs(ma))
+        img = new_vid[i,:,:]
+        f = np.zeros((1000,1000,3))
+        a, b = np.where(img>0)
+        f[a, b, 0] = 255 * img[a, b] / largest
+        c, d = np.where(img<0)
+        f[c, d, 2] = (img[c, d] / -largest) * 255
+        f = np.uint8(f)
+        writer.write(f)
+        print(i)
+    writer.release()
+
         
         
 
@@ -90,4 +117,5 @@ if __name__ == "__main__":
     #  convert_video(vid)
     # background_extraction()
     # to_mp4()
-    convert_large_video()
+    # convert_large_video()
+    overlay_template()
