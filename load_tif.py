@@ -85,7 +85,7 @@ def background_extraction():
 def overlay_template():
     # tiff_file = '../data/converted_vid1.tif'
     # vid = io.imread(tiff_file)
-    vid = np.memmap('use_large_convert.npy')
+    vid = np.memmap('use_large_convert.npy', shape=(40000,1000,1000), dtype=np.float32)
     # img = np.average(vid, axis=0)
     img = np.load('average_img.npy')
     frames, r, c = vid.shape
