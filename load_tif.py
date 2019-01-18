@@ -24,13 +24,12 @@ def load_video():
     return im
 
 def to_mp4():
-    tiff_file = '../data/extract_vid_abs.tif'
+    tiff_file = 'short_vid.tif'
     vid = io.imread(tiff_file)
     img = (vid - vid.min()) / (vid.max() - vid.min()) * 255
     img = np.uint8(img)
-    # img = cv2.cvtColor(img, cv2.GRAY2RGB)
     frames, r, c = img.shape
-    writer = cv2.VideoWriter('out_extract_abs.avi', cv2.VideoWriter_fourcc('M','J','P','G'), 30, (c, r), isColor=False)
+    writer = cv2.VideoWriter('short_vid.avi', cv2.VideoWriter_fourcc('M','J','P','G'), 30, (c, r), isColor=False)
     for i in range(frames):
         f = img[i,:,:]
         writer.write(f)
@@ -51,6 +50,23 @@ def convert_video(vid):
     io.imsave("../data/converted_vid1.tif", new_vid)
     print("done!")
 
+def convert_large_video():
+    vid = io.imread('../data/vid.tif')
+    matrix = np.load("../data/matrix.npy")
+    compare = np.load("../data/flat_cortex_template.npy")
+    frames, r, c = vid.shape
+    new_vid = np.memmap('use_large_convert.npy', dtype=np.float32, mode='w+', shape=(frames, 1000, 1000))
+    for i in range(frames):
+        new_vid[i,:,:] = cv2.warpPerspective(vid[i,:,:],matrix,(1000,1000))
+    ma = np.amax(new_vid)
+    mi = np.amin(new_vid)
+    writer = cv2.VideoWriter('convert_vid.avi', cv2.VideoWriter_fourcc('M','J','P','G'), 30, (c, r), isColor=False)
+    for i in range(frames):
+        f = np.uint8(255*(new_vid[i,:,:]-mi)/(ma-mi))
+        writer.write(f)
+    writer.release()
+    
+
 def background_extraction():
     tiff_file = '../data/converted_vid1.tif'
     vid = io.imread(tiff_file)
@@ -70,5 +86,6 @@ def background_extraction():
 if __name__ == "__main__":
     #  vid = load_video()
     #  convert_video(vid)
-    background_extraction()
-    to_mp4()
+    # background_extraction()
+    # to_mp4()
+    convert_large_video()
