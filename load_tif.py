@@ -95,7 +95,7 @@ def overlay_template():
     mi = np.amin(new_vid)
     ma = np.amax(new_vid)
 
-    writer = cv2.VideoWriter('colored_convert_vid.avi', cv2.VideoWriter_fourcc('M','J','P','G'), 30, (c, r), isColor=True)
+    writer = cv2.VideoWriter('../data/colored_convert_vid.avi', cv2.VideoWriter_fourcc('M','J','P','G'), 30, (c, r), isColor=True)
     for i in range(frames):
         largest = max(abs(mi), abs(ma))
         img = new_vid[i,:,:]
