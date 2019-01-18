@@ -58,8 +58,10 @@ def convert_large_video():
     new_vid = np.memmap('use_large_convert.npy', dtype=np.float32, mode='w+', shape=(frames, 1000, 1000))
     for i in range(frames):
         new_vid[i,:,:] = cv2.warpPerspective(vid[i,:,:],matrix,(1000,1000))
+    print("done converting")
     ma = np.amax(new_vid)
     mi = np.amin(new_vid)
+    print("done calculating min and max")
     writer = cv2.VideoWriter('convert_vid.avi', cv2.VideoWriter_fourcc('M','J','P','G'), 30, (c, r), isColor=False)
     for i in range(frames):
         f = np.uint8(255*(new_vid[i,:,:]-mi)/(ma-mi))
