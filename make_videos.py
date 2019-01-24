@@ -1,7 +1,7 @@
 import cv2
-import matplotlib.pyplot as plt
 import matplotlib as mpl
 mpl.use('Agg')
+import matplotlib.pyplot as plt
 import numpy as np
 from skimage import io
 import pickle
