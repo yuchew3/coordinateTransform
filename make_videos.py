@@ -49,8 +49,9 @@ if __name__ == '__main__':
 
     first_frame = original_video[1,:,:]
 
-    limit = 4.18187
-    norm = mpl.colors.Normalize(vmin = -limit, vmax = limit)
+    maxi = 4.18187
+    mini = -0.2908125
+    norm = mpl.colors.Normalize(vmin = mini, vmax = maxi)
     frames, _, _ = original_video.shape
 
     top_down_overlay = plt.imread("../data/cortical_map_top_down.png")
@@ -58,10 +59,10 @@ if __name__ == '__main__':
     for i in range(frames):
         fig, ax = plt.subplots(figsize=(16,12))
         img = cv2.warpPerspective(original_video[i,:,:],matrix,(1320,1140))
-        cax = ax.imshow(img, cmap='bwr', norm=norm)
+        cax = ax.imshow(img, cmap='inferno', norm=norm)
         ax.imshow(top_down_overlay, extent=(0, 1140, 1320, 0))
         
-        cbar = fig.colorbar(cax, orientation='vertical', norm=norm)
+        cbar = fig.colorbar(cax, ticks=[], orientation='vertical', norm=norm, shrink=0.5)
         plt.axis('off')
         fname = '../overlay_vid/image_{0:05d}'.format(i)
         print(fname)
