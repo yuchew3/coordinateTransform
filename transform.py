@@ -4,7 +4,7 @@ import scipy.misc
 import matplotlib.pyplot as plt
 
 def tryit():
-    img = cv2.imread("../data/sliceImage.png")
+    img = ("../data/sliceImage.png")
     rows, cols, ch = img.shape
     print(rows)
     print(cols)

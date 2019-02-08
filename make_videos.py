@@ -48,7 +48,7 @@ if __name__ == '__main__':
     original_video = io.imread('../data/vid.tif')
 
     first_frame = original_video[1,:,:]
-
+  
     maxi = 4.18187
     mini = -0.2908125
     norm = mpl.colors.Normalize(vmin = mini, vmax = maxi)
