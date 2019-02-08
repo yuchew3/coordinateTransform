@@ -33,7 +33,7 @@ def dmd(X1, X2, r, dt):
 
 
 def main():
-    vid = io.imread('short_vid.tif')
+    vid = io.imread('vid.tif')
     flatten = np.transpose([np.asarray(x).flatten() for x in vid])
     X1 = flatten[:,:-1]
     X2 = flatten[:,1:]
