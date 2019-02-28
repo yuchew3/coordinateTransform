@@ -50,7 +50,7 @@ def svd(A, k, epsilon=1e-10):
     svdSoFar = []
 
     for i in range(k):
-        matrixFor1D = A.copy()
+        matrixFor1D = np.copy(A)
 
         for singularValue, u, v in svdSoFar[:i]:
             matrixFor1D -= singularValue * np.outer(u, v)
