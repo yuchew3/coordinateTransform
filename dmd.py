@@ -3,11 +3,15 @@ from skimage import io
 from past.utils import old_div
 import plot_utils
 import power_svd
+import time
 
 
 def dmd(X1, X2, r, dt):
     # U, S, V = np.linalg.svd(X1, full_matrices=False)
+    print('start power iteration')
+    startt = time.time()
     S, U, V = power_svd.svd(X1, r)
+    pirnt('get a result in ' + str(time.time() - startt) + 's')
     V = V.conj().T
     # rank = min(r, U.shape[1])
 
