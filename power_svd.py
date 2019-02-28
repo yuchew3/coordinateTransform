@@ -27,6 +27,7 @@ def svd_1d(A, epsilon=1e-10):
     iterations = 0
     while True:
         iterations += 1
+        print(iteration)
         lastV = currentV
         currentV = np.dot(B, lastV)
         currentV = currentV / norm(currentV)
