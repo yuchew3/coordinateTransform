@@ -50,6 +50,7 @@ def svd(A, k, epsilon=1e-10):
     svdSoFar = []
 
     for i in range(k):
+        print('starting numer ' + str(i))
         matrixFor1D = np.copy(A)
 
         for singularValue, u, v in svdSoFar[:i]:
