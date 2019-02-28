@@ -6,6 +6,7 @@ import plot_utils
 
 def dmd(X1, X2, r, dt):
     U, S, V = np.linalg.svd(X1, full_matrices=False)
+
     V = V.conj().T
     rank = min(r, U.shape[1])
 
@@ -33,15 +34,15 @@ def dmd(X1, X2, r, dt):
 
 
 def main():
-    vid = io.imread('../data/vid.tif')
+    vid = io.imread('short_vid.tif') 
     flatten = np.transpose([np.asarray(x).flatten() for x in vid])
     X1 = flatten[:,:-1]
     X2 = flatten[:,1:]
 
-    eigenvectors_high, omega, eigenvalues_high, b, Xdmd = dmd(X1, X2, 10, 2)
+    eigenvectors_high, omega, eigenvalues_high, b, Xdmd = dmd(X1, X2, 10, 1)
 
     plot_utils.plot_eigenvalues(eigenvalues_high)
-    plot_utils.plot_modes(eigenvectors_high, vid[0].shape)
+    plot_utils.plot_modes(eigenvectors_high, vid[0].shape, eigenvalues_high)
 
     print(Xdmd.shape)
     np.save('reconstructed', Xdmd)

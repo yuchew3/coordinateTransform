@@ -41,7 +41,7 @@ def plot_eigenvalues(eigenvalues):
             loc=1))
     plt.savefig('../data/dmd/eigenvalues')
 
-def plot_modes(modes, shape):
+def plot_modes(modes, shape, eigenvalues):
     x = np.arange(shape[1])
     y = np.arange(shape[0])
     xgrid, ygrid = np.meshgrid(x, y)
@@ -49,7 +49,8 @@ def plot_modes(modes, shape):
 
     for idx in index_mode:
         fig = plt.figure(figsize=(12, 5))
-        fig.suptitle('DMD Mode {}'.format(idx))
+        title = 'DMD Mode ' + str(idx) + ', eigenvalues = ', str(eigenvalues[idx])
+        fig.suptitle(title)
 
         real_ax = fig.add_subplot(1, 2, 1)
         imag_ax = fig.add_subplot(1, 2, 2)
@@ -60,13 +61,14 @@ def plot_modes(modes, shape):
             xgrid,
             ygrid,
             mode.real,
-            cmap='jet',
+            cmap='viridis',
             vmin=mode.real.min(),
             vmax=mode.real.max())
         imag = imag_ax.pcolor(
             xgrid,
             ygrid,
             mode.imag,
+            cmap='viridis',
             vmin=mode.imag.min(),
             vmax=mode.imag.max())
 
