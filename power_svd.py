@@ -6,7 +6,8 @@ from numpy.linalg import norm
 from math import sqrt
 
 def randomUnitVector(n):
-    unnormalized = [normalvariate(0, 1) for _ in range(n)]
+    # unnormalized = [normalvariate(0, 1) for _ in range(n)]
+    unnormalized = np.random.rand(n)
     theNorm = sqrt(sum(x * x for x in unnormalized))
     return [x / theNorm for x in unnormalized]
 
