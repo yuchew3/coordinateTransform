@@ -2,17 +2,18 @@ import numpy as np
 from skimage import io
 from past.utils import old_div
 import plot_utils
+import power_svd
 
 
 def dmd(X1, X2, r, dt):
-    U, S, V = np.linalg.svd(X1, full_matrices=False)
-
+    # U, S, V = np.linalg.svd(X1, full_matrices=False)
+    S, U, V = power_svd.svd(X1, r)
     V = V.conj().T
-    rank = min(r, U.shape[1])
+    # rank = min(r, U.shape[1])
 
-    U_r = U[:, :rank]
-    V_r = V[:, :rank]
-    s = S[:rank]
+    # U_r = U[:, :rank]
+    # V_r = V[:, :rank]
+    # s = S[:rank]
 
     Atilde = U_r.T.conj().dot(X2).dot(V_r) * np.reciprocal(s)
 
@@ -25,7 +26,7 @@ def dmd(X1, X2, r, dt):
 
     omega = old_div(np.log(eigenvalues_high), dt)
     ######
-    timesteps = np.arange(0, 399 + dt, dt)
+    timesteps = np.arange(0, 39999 + dt, dt)
     temp = np.exp(np.multiply(*np.meshgrid(omega, timesteps)))
     time_dynamics = (temp * b).T
     Xdmd = eigenvectors_high.dot(time_dynamics)
@@ -34,7 +35,7 @@ def dmd(X1, X2, r, dt):
 
 
 def main():
-    vid = io.imread('short_vid.tif') 
+    vid = io.imread('../data/vid.tif') 
     flatten = np.transpose([np.asarray(x).flatten() for x in vid])
     X1 = flatten[:,:-1]
     X2 = flatten[:,1:]
