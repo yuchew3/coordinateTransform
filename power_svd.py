@@ -1,3 +1,5 @@
+import os
+os.environ["OMP_NUM_THREADS"] = "1"
 import numpy as np
 from random import normalvariate
 from numpy.linalg import norm

@@ -1,3 +1,5 @@
+import os
+os.environ["OMP_NUM_THREADS"] = "1"
 import numpy as np
 from skimage import io
 from past.utils import old_div
