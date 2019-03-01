@@ -1,6 +1,7 @@
 import matplotlib as mpl
 mpl.use('Agg')
 from matplotlib import pyplot as plt
+plt.ioff()
 import numpy as np
 
 def plot_eigenvalues(eigenvalues):
