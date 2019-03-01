@@ -8,15 +8,16 @@ from math import sqrt
 def randomUnitVector(n):
     # unnormalized = [normalvariate(0, 1) for _ in range(n)]
     unnormalized = np.random.rand(n)
-    theNorm = sqrt(sum(x * x for x in unnormalized))
-    return [x / theNorm for x in unnormalized]
+    return unnormalized / np.linalg.norm(unnormalized)
 
 
 def svd_1d(A, epsilon=1e-10):
     ''' The one-dimensional SVD '''
 
     n, m = A.shape
+    print('generating random vector...')
     x = randomUnitVector(min(n,m))
+    print('done generating random vector!')
     lastV = None
     currentV = x
 
