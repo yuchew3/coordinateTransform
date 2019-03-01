@@ -28,7 +28,7 @@ def svd_1d(A, epsilon=1e-10):
     iterations = 0
     while True:
         iterations += 1
-        print(iteration)
+        print(iterations)
         lastV = currentV
         currentV = np.dot(B, lastV)
         currentV = currentV / norm(currentV)
@@ -70,4 +70,4 @@ def svd(A, k, epsilon=1e-10):
         A -= sigma * np.outer(u, v)
 
     singularValues, us, vs = [np.array(x) for x in zip(*svdSoFar)]
-    return singularValues, us.T, vs
+    return us.T, singularValues, vs
