@@ -32,7 +32,7 @@ def dmd(X1, X2, r, dt):
 
     omega = old_div(np.log(eigenvalues_high), dt)
     ######
-    timesteps = np.arange(0, 399 + dt, dt)
+    timesteps = np.arange(0, 39999 + dt, dt)
     temp = np.exp(np.multiply(*np.meshgrid(omega, timesteps)))
     time_dynamics = (temp * b).T
     Xdmd = eigenvectors_high.dot(time_dynamics)
