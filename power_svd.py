@@ -50,24 +50,24 @@ def svd(A, k, epsilon=1e-10):
     svdSoFar = []
 
     for i in range(k):
-        print('starting numer ' + str(i))
-        matrixFor1D = np.copy(A)
+        print('starting number ' + str(i))
 
-        for singularValue, u, v in svdSoFar[:i]:
-            matrixFor1D -= singularValue * np.outer(u, v)
+        # for singularValue, u, v in svdSoFar[:i]:
+        #     matrixFor1D -= singularValue * np.outer(u, v)
 
         if n > m:
-            v = svd_1d(matrixFor1D, epsilon=epsilon)  # next singular vector
+            v = svd_1d(A, epsilon=epsilon)  # next singular vector
             u_unnormalized = np.dot(A, v)
             sigma = norm(u_unnormalized)  # next singular value
             u = u_unnormalized / sigma
         else:
-            u = svd_1d(matrixFor1D, epsilon=epsilon)  # next singular vector
+            u = svd_1d(A, epsilon=epsilon)  # next singular vector
             v_unnormalized = np.dot(A.T, u)
             sigma = norm(v_unnormalized)  # next singular value
             v = v_unnormalized / sigma
 
         svdSoFar.append((sigma, u, v))
+        A -= sigma * np.outer(u, v)
 
     singularValues, us, vs = [np.array(x) for x in zip(*svdSoFar)]
     return singularValues, us.T, vs
