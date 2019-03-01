@@ -5,67 +5,40 @@ from random import normalvariate
 from numpy.linalg import norm
 from math import sqrt
 
-def randomUnitVector(n):
-    # unnormalized = [normalvariate(0, 1) for _ in range(n)]
-    unnormalized = np.random.rand(n)
-    return unnormalized / np.linalg.norm(unnormalized)
 
+def power_iteration(A, epsilon=1e-10):
+    B = np.dot(A.T, A)
 
-def svd_1d(A, epsilon=1e-10):
-    ''' The one-dimensional SVD '''
-
-    n, m = A.shape
     print('generating random vector...')
-    x = randomUnitVector(min(n,m))
+    unnormalized = np.random.rand(B.shape[0])
+    v = unnormalized / np.linalg.norm(unnormalized)
     print('done generating random vector!')
-    lastV = None
-    currentV = x
-
-    if n > m:
-        B = np.dot(A.T, A)
-    else:
-        B = np.dot(A, A.T)
 
     iterations = 0
     while True:
         iterations += 1
         print(iterations)
-        lastV = currentV
-        currentV = np.dot(B, lastV)
-        currentV = currentV / norm(currentV)
+        Bv = np.dot(B, v)
+        v_new = Bv / np.linalg.norm(Bv)
 
-        if abs(np.dot(currentV, lastV)) > 1 - epsilon:
-            print("converged in {} iterations!".format(iterations))
-            return currentV
+        if abs(np.dot(v_new, v)) > 1 - epsilon:
+            break
+        v = v_new
+    return v_new
 
 
 def svd(A, k, epsilon=1e-10):
-    '''
-        Compute the singular value decomposition of a matrix A
-        using the power method. A is the input matrix, and k
-        is the number of singular values you wish to compute.
-        If k is None, this computes the full-rank decomposition.
-    '''
-    A = np.array(A, dtype=float)
+    # assume n >= m
     n, m = A.shape
     svdSoFar = []
 
     for i in range(k):
         print('starting number ' + str(i))
 
-        # for singularValue, u, v in svdSoFar[:i]:
-        #     matrixFor1D -= singularValue * np.outer(u, v)
-
-        if n > m:
-            v = svd_1d(A, epsilon=epsilon)  # next singular vector
-            u_unnormalized = np.dot(A, v)
-            sigma = norm(u_unnormalized)  # next singular value
-            u = u_unnormalized / sigma
-        else:
-            u = svd_1d(A, epsilon=epsilon)  # next singular vector
-            v_unnormalized = np.dot(A.T, u)
-            sigma = norm(v_unnormalized)  # next singular value
-            v = v_unnormalized / sigma
+        v = power_iteration(A, epsilon=epsilon)  # next singular vector
+        Av = np.dot(A, v)
+        sigma = np.linalg.norm(Av)
+        u = Av / sigma
 
         svdSoFar.append((sigma, u, v))
         A -= sigma * np.outer(u, v)
