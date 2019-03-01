@@ -48,11 +48,13 @@ def main():
 
     eigenvectors_high, omega, eigenvalues_high, b, Xdmd = dmd(X1, X2, 10, 1)
 
-    plot_utils.plot_eigenvalues(eigenvalues_high)
-    plot_utils.plot_modes(eigenvectors_high, vid[0].shape, eigenvalues_high)
+    # plot_utils.plot_eigenvalues(eigenvalues_high)
+    # plot_utils.plot_modes(eigenvectors_high, vid[0].shape, eigenvalues_high)
 
     print(Xdmd.shape)
     np.save('reconstructed', Xdmd)
+    np.save('eigenvalue_high', eigenvalues_high)
+    np.save('eigenvectors_high', eigenvectors_high)
 
 
 # use the original video for test
