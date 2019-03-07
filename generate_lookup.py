@@ -5,7 +5,7 @@ import cv2
 
 
 def generate_video_with_coords():
-    vid = io.imread('vid.tif')
+    vid = io.imread('../data/vid.tif')
     print(vid.shape)
     matrix = np.load('../data/matrix.npy')
     compare = np.load("../data/flat_cortex_template.npy")
