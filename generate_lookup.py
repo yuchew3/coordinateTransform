@@ -23,6 +23,19 @@ def generate_video_with_coords():
         con_vid[:,i] = flatten
     np.save('../data/converted_matrix', con_vid)
 
+    rank = 500
+    U, s, V = np.linalg.svd(con_vid)
+    rank = min(r, U.shape[1])
+    V = V.conj().T
+    U_r = U[:, :rank]
+    V_r = V[:, :rank]
+    s = S[:rank]
+    np.save('../data/spatial', U)
+    np.save('../data/temporal',V)
+    np.save('../data/singular_v', s)
+
+
+
 def generate_coords():
     vid = io.imread('short_vid.tif')
     first = vid[0]
