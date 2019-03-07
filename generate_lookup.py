@@ -18,7 +18,7 @@ def generate_video_with_coords():
         frame = vid[i]
         converted_frame = cv2.warpPerspective(frame, matrix, compare.T.shape, borderValue=np.nan)
         flatten = np.zeros(len(x))
-        for j in len(x):
+        for j in range(len(x)):
             flatten[j] = converted_frame[x[j]][y[j]]
         con_vid[:,i] = flatten
     np.save('../data/converted_matrix', con_vid)
