@@ -10,7 +10,7 @@ def back_to_image():
     U = np.load('../data/spatial.npy')
     x = np.load('../data/map/x_coords.npy')
     y = np.load('../data/map/y_coords.npy')
-    matrix = np.zeros((1140, 1320, 40000))
+    matrix = np.zeros((1140, 1320, 20000))
     for i in range(40000):
         for j in range(len(x)):
             matrix[x[j]][y[j]][i] = U[j][i]
