@@ -11,7 +11,7 @@ def back_to_image():
     x = np.load('../data/map/x_coords.npy')
     y = np.load('../data/map/y_coords.npy')
     matrix = np.zeros((1140, 1320, 500))
-    for i in range(40000):
+    for i in range(500):
         for j in range(len(x)):
             matrix[x[j]][y[j]][i] = U[j][i]
     np.save('../data/spatial_aligned', matrix)
