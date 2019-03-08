@@ -6,6 +6,7 @@ import cv2
 
 def run_svd():
     matrix = np.load('../data/converted_matrix.npy')
+    print('done loading data')
     U, s, V = randomized_svd(matrix, 
                               n_components=500)
     np.save('../data/spatial', U)
