@@ -66,4 +66,4 @@ def isnan(frame):
     return not(np.isnan(compare))
 
 if __name__ == '__main__':
-    generate_video_with_coords()
+    run_svd()
