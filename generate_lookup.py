@@ -1,3 +1,5 @@
+import os
+os.environ["OMP_NUM_THREADS"] = "4"
 import numpy as np
 from skimage import io
 from sklearn.utils.extmath import randomized_svd
