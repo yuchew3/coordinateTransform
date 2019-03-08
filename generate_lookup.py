@@ -1,7 +1,17 @@
 import numpy as np
 from skimage import io
+from sklearn.utils.extmath import randomized_svd
 import matplotlib.pyplot as plt
 import cv2
+
+def run_svd():
+    matrix = np.load('../data/converted_matrix.npy')
+    U, s, V = randomized_svd(matrix, 
+                              n_components=500)
+    np.save('../data/spatial', U)
+    np.save('../data/temporal',V)
+    np.save('../data/singular_v', s)
+    
 
 
 def generate_video_with_coords():
