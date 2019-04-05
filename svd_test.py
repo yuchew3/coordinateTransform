@@ -1,4 +1,6 @@
 import numpy as np
+import os
+os.environ["OMP_NUM_THREADS"] = "1"
 import power_svd
 from sklearn.utils.extmath import randomized_svd
 import matplotlib.pyplot as plt
@@ -22,6 +24,9 @@ def svd_tolerance():
         norm = check_n_oversamples(matrix, n)
         norms.append(norm)
     plt.plot(n_oversamples, norms)
+    plt.show()
+    plt.savefig('n_oversamples')
+
                             
 def check_n_oversamples(matrix, n):
     U, s, V = randomized_svd(matrix, n_oversamples=n)
