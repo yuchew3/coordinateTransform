@@ -1,6 +1,7 @@
 import numpy as np
 import power_svd
 from sklearn.utils.extmath import randomized_svd
+import matplotlib.pyplot as plt
 
 def reconstruction_test():
     X = np.random.randint(5, size=(70,20))
@@ -20,6 +21,7 @@ def svd_tolerance():
     for n in n_oversamples:
         norm = check_n_oversamples(matrix, n)
         norms.append(norm)
+    plt.plot(n_oversamples, norms)
                             
 def check_n_oversamples(matrix, n):
     U, s, V = randomized_svd(matrix, n_oversamples=n)
@@ -27,4 +29,4 @@ def check_n_oversamples(matrix, n):
     return np.linalg.norm(diff)
 
 if __name__ == '__main__':
-    main()
+    svd_tolerance()
