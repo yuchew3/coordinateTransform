@@ -44,12 +44,12 @@ def svd_tolerance():
 
                             
 def check_n_oversamples(matrix, n):
-    U, s, V = randomized_svd(matrix, n_oversamples=n)
+    U, s, V = randomized_svd(matrix, n_oversamples=n, n_components=500)
     diff = matrix - np.dot(U, np.dot(np.diag(s), V))
     return np.linalg.norm(diff)
 
 def check_n_iters(matrix, n):
-    U, s, V = randomized_svd(matrix, n_iter=n)
+    U, s, V = randomized_svd(matrix, n_iter=n, n_components=500)
     diff = matrix - np.dot(U, np.dot(np.diag(s), V))
     return np.linalg.norm(diff)
 
