@@ -17,6 +17,7 @@ def reconstruction_test():
 def svd_tolerance():
     # matrix = np.load('../data/converted_matrix.npy')
     matrix = io.imread('../data/vid.tif')
+    matrix = np.transpose([np.asarray(x).flatten() for x in matrix])
     print('done loading data')
     U, s, V = randomized_svd(matrix, 
                               n_components=500)
