@@ -2,6 +2,7 @@ import numpy as np
 import os
 os.environ["OMP_NUM_THREADS"] = "1"
 import power_svd
+from skimage import io
 from sklearn.utils.extmath import randomized_svd
 import matplotlib.pyplot as plt
 
@@ -14,22 +15,40 @@ def reconstruction_test():
     print(np.where(diff > epsilon))
 
 def svd_tolerance():
-    matrix = np.load('../data/converted_matrix.npy')
+    # matrix = np.load('../data/converted_matrix.npy')
+    matrix = io.imread('../data/vid.tif')
     print('done loading data')
     U, s, V = randomized_svd(matrix, 
                               n_components=500)
-    n_oversamples = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    n_oversamples = [5, 10, 15, 20] # from 5 - 20
+    n_iters = [4, 7, 10, 20, 30] # from 4, 7, 
+
     norms = []
     for n in n_oversamples:
+        print('start doing n_oversample = ', n)
         norm = check_n_oversamples(matrix, n)
         norms.append(norm)
+        print('done doing n_oversample = ', n)
     plt.plot(n_oversamples, norms)
-    plt.show()
     plt.savefig('n_oversamples')
+
+    norms = []
+    for n in n_iters:
+        print('starting doing n_iters = ', n)
+        norm = check_n_iters(matrix, n)
+        norms.append(norm)
+        print('done doing n_iters = ', n)
+    plt.plot(n_iters, norms)
+    plt.savefig('n_iters')
 
                             
 def check_n_oversamples(matrix, n):
     U, s, V = randomized_svd(matrix, n_oversamples=n)
+    diff = matrix - np.dot(U, np.dot(np.diag(s), V))
+    return np.linalg.norm(diff)
+
+def check_n_iters(matrix, n):
+    U, s, V = randomized_svd(matrix, n_iter=n)
     diff = matrix - np.dot(U, np.dot(np.diag(s), V))
     return np.linalg.norm(diff)
 
