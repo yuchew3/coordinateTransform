@@ -30,8 +30,9 @@ def svd_tolerance():
         norm = check_n_oversamples(matrix, n)
         norms.append(norm)
         print('done doing n_oversample = ', n)
-    plt.plot(n_oversamples, norms)
-    plt.savefig('n_oversamples')
+    # plt.plot(n_oversamples, norms)
+    # plt.savefig('n_oversamples')
+    np.save('n_oversamples', norms)
 
     norms = []
     for n in n_iters:
@@ -39,8 +40,10 @@ def svd_tolerance():
         norm = check_n_iters(matrix, n)
         norms.append(norm)
         print('done doing n_iters = ', n)
-    plt.plot(n_iters, norms)
-    plt.savefig('n_iters')
+    # plt.plot(n_iters, norms)
+    # plt.savefig('n_iters')
+    np.save('n_iters', norms)
+
 
                             
 def check_n_oversamples(matrix, n):
