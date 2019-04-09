@@ -44,6 +44,23 @@ def svd_tolerance():
     # plt.savefig('n_iters')
     np.save('n_iters', norms)
 
+def svd_tune_rank():
+    matrix = io.imread('../data/vid.tif')
+    matrix = np.transpose([np.asarray(x).flatten() for x in matrix])
+    print('done loading data')
+    ranks = np.linspace(500,10000, 20)
+    norms = []
+    for r in ranks:
+        print('starting rank = ', r)
+        U, s, V = randomized_svd(matrix, n_oversamples=150, n_iter=, n_components=r)
+        diff = matrix - np.dot(U, np.dot(np.diag(s), V))
+        norms.append(np.linalg.norm(diff))
+        print('done rank = ', r)
+    norms = norms / 15452.521
+    np.save('ranks', norms)
+    
+
+
 
                             
 def check_n_oversamples(matrix, n):
@@ -57,4 +74,4 @@ def check_n_iters(matrix, n):
     return np.linalg.norm(diff)
 
 if __name__ == '__main__':
-    svd_tolerance()
+    svd_tune_rank()
