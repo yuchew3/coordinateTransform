@@ -74,4 +74,5 @@ def check_n_iters(matrix, n):
     return np.linalg.norm(diff)
 
 if __name__ == '__main__':
+    svd_tolerance()
     svd_tune_rank()
