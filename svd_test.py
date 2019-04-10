@@ -52,7 +52,7 @@ def svd_tune_rank():
     norms = []
     for r in ranks:
         print('starting rank = ', r)
-        U, s, V = randomized_svd(matrix, n_oversamples=150, n_iter=, n_components=r)
+        U, s, V = randomized_svd(matrix, n_oversamples=150, n_iter=30, n_components=r)
         diff = matrix - np.dot(U, np.dot(np.diag(s), V))
         norms.append(np.linalg.norm(diff))
         print('done rank = ', r)
