@@ -22,7 +22,7 @@ def svd_tolerance():
     U, s, V = randomized_svd(matrix, 
                               n_components=500)
     n_oversamples = [50, 100, 150, 200] # from 5 - 20
-    n_iters = [40, 70, 100, 200, 300] # from 4, 7, 
+    n_iters = [40, 70, 100] # from 4, 7, 
 
     norms = []
     for n in n_oversamples:
