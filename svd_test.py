@@ -48,7 +48,8 @@ def svd_tune_rank():
     matrix = io.imread('../data/vid.tif')
     matrix = np.transpose([np.asarray(x).flatten() for x in matrix])
     print('done loading data')
-    ranks = np.linspace(500,10000, 20)
+    ranks = np.linspace(500,10000,20)
+    ranks = ranks.astype(int)
     norms = []
     for r in ranks:
         print('starting rank = ', r)
@@ -74,5 +75,5 @@ def check_n_iters(matrix, n):
     return np.linalg.norm(diff)
 
 if __name__ == '__main__':
-    svd_tolerance()
+    #svd_tolerance()
     svd_tune_rank()
