@@ -48,7 +48,7 @@ def svd_tune_rank():
     matrix = io.imread('../data/vid.tif')
     matrix = np.transpose([np.asarray(x).flatten() for x in matrix])
     print('done loading data')
-    ranks = np.linspace(500,10000,20)
+    ranks = np.linspace(500,1000,5)
     ranks = ranks.astype(int)
     norms = []
     for r in ranks:
@@ -57,7 +57,7 @@ def svd_tune_rank():
         diff = matrix - np.dot(U, np.dot(np.diag(s), V))
         norms.append(np.linalg.norm(diff))
         print('done rank = ', r)
-    norms = norms / 15452.521
+    norms = np.array(norms) / 15452.521
     np.save('ranks', norms)
     
 
