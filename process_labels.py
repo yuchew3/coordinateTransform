@@ -12,9 +12,10 @@ def trunk_data_by_states(vid, labels):
     sleep = vid[state_1[0]]
     wake_1 = vid[state_2[0]]
     wake_2 = vid[state_3[0]]
-    np.save('../data/sleep',sleep)
-    np.save('../data/wake_1',wake_1)
-    np.save('../data/wake_2',wake_2)
+    print(sleep.shape)
+    np.save('../data/byState/sleep',sleep)
+    np.save('../data/byState/wake_1',wake_1)
+    np.save('../data/byState/wake_2',wake_2)
 
 def load_labels():
     mat = scipy.io.loadmat('../data/frameStates.mat')
