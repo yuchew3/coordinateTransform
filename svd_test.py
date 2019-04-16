@@ -61,7 +61,13 @@ def svd_tune_rank():
     np.save('ranks', norms)
     
 
-
+def make_svd_matrices():
+    matrix = io.imread('../data/vid.tif')
+    matrix = np.transpose([np.asarray(x).flatten() for x in matrix])
+    print('done loading data')
+    U, s, V = randomized_svd(matrix, n_oversamples=10, n_iter=20, n_components=1000)
+    np.save('umat', U)
+    np.save('svmat', np.dot(np.diag(s), V))
 
                             
 def check_n_oversamples(matrix, n):
@@ -76,4 +82,5 @@ def check_n_iters(matrix, n):
 
 if __name__ == '__main__':
     #svd_tolerance()
-    svd_tune_rank()
+    # svd_tune_rank()
+    make_svd_matrices()
