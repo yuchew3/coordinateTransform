@@ -9,7 +9,7 @@ def trunk_data_by_states(vid, labels):
     print(state_1[0].shape)
     print(state_2[0].shape)
     print(state_3[0].shape)
-    sleep = vid[:][state_1[0]]
+    sleep = vid[:][state_1[0].T]
     wake_1 = vid[state_2[0]]
     wake_2 = vid[state_3[0]]
     print(sleep.shape)
