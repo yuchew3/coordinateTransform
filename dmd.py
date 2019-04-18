@@ -1,7 +1,7 @@
 import os
 os.environ["OMP_NUM_THREADS"] = "1"
 import numpy as np
-from skimage import io
+import ca_data_utils
 from past.utils import old_div
 import plot_utils
 import power_svd
@@ -37,12 +37,9 @@ def dmd(X1, X2, r, dt):
     time_dynamics = (temp * b).T
     Xdmd = eigenvectors_high.dot(time_dynamics)
 
-    return eigenvectors_high, omega, eigenvalues_high, b, Xdmd
-
 
 def main():
-    vid = io.imread('../data/vid.tif') 
-    flatten = np.transpose([np.asarray(x).flatten() for x in vid])
+    flatten = ca_data_utils.load_vid()
     X1 = flatten[:,:-1]
     X2 = flatten[:,1:]
 

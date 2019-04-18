@@ -2,6 +2,8 @@ import scipy.io
 import numpy as np
 import skimage.io
 
+import ca_data_utils
+
 def trunk_data_by_states(vid, labels):
     state_1 = np.where(labels==1)
     state_2 = np.where(labels==2)
@@ -17,19 +19,9 @@ def trunk_data_by_states(vid, labels):
     np.save('../data/byState/wake_1',wake_1)
     np.save('../data/byState/wake_2',wake_2)
 
-def load_labels():
-    mat = scipy.io.loadmat('../data/frameStates.mat')
-    mat = np.array(mat['b'])
-    return mat[0][:-1]
-
-def load_vid():
-    vid = skimage.io.imread('../data/vid.tif')
-    vid = np.transpose([np.asarray(x).flatten() for x in vid])
-    return vid
-
 if __name__ == '__main__':
-    labels = load_labels()
-    vid = load_vid()
+    labels = ca_data_utils.load_labels()
+    vid = ca_data_utils.load_vid()
     print(vid.shape)
     trunk_data_by_states(vid, labels)
 

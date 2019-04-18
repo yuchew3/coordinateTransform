@@ -35,7 +35,7 @@ def svd(A, k, epsilon=1e-10):
     for i in range(k):
         print('starting number ' + str(i))
 
-        v = power_iteration(A, epsilon=epsilon)  # next singular vector
+        v = power_iteration(A, epsilon=epsilon)
         Av = np.dot(A, v)
         sigma = np.linalg.norm(Av)
         u = Av / sigma

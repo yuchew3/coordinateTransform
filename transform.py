@@ -106,6 +106,8 @@ def transform():
 
     plt.imshow(compare, alpha=0.5)
     plt.imshow(dst, alpha=0.9)
+
+    plt.axis('off')
    
     # plt.subplot(221),plt.imshow(img),plt.title('Input')
     # plt.subplot(222),plt.imshow(dst),plt.title('Output')

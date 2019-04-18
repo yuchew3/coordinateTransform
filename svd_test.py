@@ -2,7 +2,7 @@ import numpy as np
 import os
 os.environ["OMP_NUM_THREADS"] = "1"
 import power_svd
-from skimage import io
+import ca_data_utils
 from sklearn.utils.extmath import randomized_svd
 import matplotlib.pyplot as plt
 
@@ -16,8 +16,7 @@ def reconstruction_test():
 
 def svd_tolerance():
     # matrix = np.load('../data/converted_matrix.npy')
-    matrix = io.imread('../data/vid.tif')
-    matrix = np.transpose([np.asarray(x).flatten() for x in matrix])
+    matrix = ca_data_utils.load_vid()
     print('done loading data')
     U, s, V = randomized_svd(matrix, 
                               n_components=500)
@@ -45,8 +44,7 @@ def svd_tolerance():
     np.save('n_iters', norms)
 
 def svd_tune_rank():
-    matrix = io.imread('../data/vid.tif')
-    matrix = np.transpose([np.asarray(x).flatten() for x in matrix])
+    matrix = ca_data_utils.load_vid()
     print('done loading data')
     ranks = np.linspace(500,1000,5)
     ranks = ranks.astype(int)
@@ -62,8 +60,7 @@ def svd_tune_rank():
     
 
 def make_svd_matrices():
-    matrix = io.imread('../data/vid.tif')
-    matrix = np.transpose([np.asarray(x).flatten() for x in matrix])
+    matrix = ca_data_utils.load_vid()
     print('done loading data')
     U, s, V = randomized_svd(matrix, n_oversamples=10, n_iter=20, n_components=1000)
     np.save('umat', U)
