@@ -10,6 +10,12 @@ def load_vid():
     vid = np.transpose([np.asarray(x).flatten() for x in vid])
     return vid
 
+def load_v_matrix():
+    # load the V matrix produced by doing svd on the original video
+    # size of V matrix: (1000, 40000)
+    v = np.load('../data/final_svd/vmat.npy')
+    return v
+
 def load_labels():
     # load the labels to each frame of the video
     # I don't know why but there are 17 0s [0,1,2,3,4,5,6,7,39992,39993,39994,39995,39996,39997,39998,39999]
