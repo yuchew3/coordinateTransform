@@ -38,8 +38,8 @@ def select_models():
     np.save('../data/clf_results/test_accuracy', test)
 
 def tune_rbf_svm():
-    vid = ca_data_utils.load_v_matrix()[:,8:39992]
-    labels = ca_data_utils.load_labels()[8:39992]
+    vid = ca_data_utils.load_v_matrix()[:,8:39991]
+    labels = ca_data_utils.load_labels()[8:39991]
 
     scaler = StandardScaler()
     X = scaler.fit_transform(vid.T)
