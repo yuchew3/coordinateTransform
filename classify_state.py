@@ -38,18 +38,21 @@ def select_models():
     np.save('../data/clf_results/test_accuracy', test)
 
 def tune_rbf_svm():
-    vid = ca_data_utils.load_v_matrix()[8:39992]
+    vid = ca_data_utils.load_v_matrix()[:,8:39992]
     labels = ca_data_utils.load_labels()[8:39992]
 
     scaler = StandardScaler()
     X = scaler.fit_transform(vid.T)
 
     C_range = np.logspace(-2, 10, 13)
+    print('C range: ', C_range)
     gamma_range = np.logspace(-9, 3, 13)
+    print('gamma range: ', gamma_range)
     param_grid = dict(gamma=gamma_range, C=C_range)
 
     cv = StratifiedShuffleSplit(n_splits=5, test_size=0.2, random_state=42)
     grid = GridSearchCV(SVC(), param_grid=param_grid, cv=cv)
+    print('start to train...')
     grid.fit(X, labels)
 
     print("The best parameters are %s with a score of %0.2f"
