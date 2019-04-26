@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use('Agg')
 import tkinter as tk
 from skimage import io
 import cv2
