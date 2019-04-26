@@ -4,10 +4,6 @@ import cv2
 import numpy as np
 from PIL import Image
 
-if __name__ == '__main__':
-    main()
-
-
 class GUI:
     def __init__(self, master):
         self.master = master
@@ -57,7 +53,6 @@ class GUI:
     def get_pixel(self, event, x, y, flags, params):
         self.showCorr(x, y)
 
-
 def main():
     root = tk.Tk()
     root.title("Correlation Map")
@@ -71,3 +66,6 @@ def main():
     window = tkinter.Tk()
 
     root.mainloop()
+
+if __name__ == '__main__':
+    main()
