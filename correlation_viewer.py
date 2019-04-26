@@ -3,7 +3,6 @@ from skimage import io
 import cv2
 import numpy as np
 from PIL import Image
-from PIL import ImageTK
 
 if __name__ == '__main__':
     main()
