@@ -1,5 +1,6 @@
 import matplotlib
 matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 import tkinter as tk
 from skimage import io
 import cv2
@@ -60,6 +61,13 @@ class GUI:
         wake1Corr = wake1Corr / np.sqrt(self.wake1_varP[ind] * self.wake1_varP)
         wake2Corr = wake2Corr / np.sqrt(self.wake2_varP[ind] * self.wake2_varP)
 
+        fig = plt.figure()
+        ax1 = fig.add_subplot(2,2,1)
+        ax1.imshow(sleepCorr.reshape((180,240)))
+        ax2 = fig.add_subplot(2,2,2)
+        ax2.imshow(wake1Corr.reshape((180,240)))
+        ax3 = fig.add_subplot(2,2,3)
+        ax3.imshow(wake2Corr.reshape((180,240)))
 
     def get_pixel(self, event, x, y, flags, params):
         self.showCorr(x, y)
@@ -73,7 +81,8 @@ def main():
     reference = ca_data_utils.load_sleep_vid()[0]
     cv2.namedWindow("reference", cv2.WINDOW_AUTOSIZE)
     cv2.setMouseCallback("reference", gui.get_pixel)
-    cv2.imshow('reference', reference)
+    while True:
+        cv2.imshow('reference', reference)
     window = tk.Tk()
 
     root.mainloop()
