@@ -16,7 +16,7 @@ class GUI:
             self.master.rowconfigure(r, weight=1)    
         for c in range(2):
             self.master.columnconfigure(c, weight=1)
-        self.sleepCanvas.grid(column=0, row=0
+        self.sleepCanvas.grid(column=0, row=0)
         self.wake1Canvas.grid(column=0, row=1)
         self.wake2Canvas.grid(column=1, row=1)
 
