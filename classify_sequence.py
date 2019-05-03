@@ -38,8 +38,8 @@ def select_models(X, y, k):
         test.append(test_accu)
         print('---> testing set accuracy: ', test_accu)
     np.save('../data/clf_results/clf_names', names)
-    np.save('../data/clf_results/train_accuracy', str(k)+'_'+train)
-    np.save('../data/clf_results/test_accuracy', str(k)+'_'+test)
+    np.save('../data/clf_results/train_accuracy'+'_'+str(k), np.array(train))
+    np.save('../data/clf_results/test_accuracy'+'_'+str(k), np.array(test))
 
 def tune_rbf_svm():
     vid = ca_data_utils.load_v_matrix()[:,9:39992]
