@@ -10,9 +10,9 @@ from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.preprocessing import StandardScaler
 
 def select_models():
-    vid = ca_data_utils.load_v_matrix()[8:39992]
+    vid = ca_data_utils.load_v_matrix().T[8:39992]
     labels = ca_data_utils.load_labels()[8:39992]
-    X_train, X_test, y_train, y_test = train_test_split(vid.T, labels, test_size=0.25) # random state?
+    X_train, X_test, y_train, y_test = train_test_split(vid, labels, test_size=0.25) # random state?
     classifiers = [
         SVC(kernel="linear", C=0.025),
         SVC(gamma=2, C=1),
@@ -50,7 +50,7 @@ def tune_rbf_svm():
     print('gamma range: ', gamma_range)
     param_grid = dict(gamma=gamma_range, C=C_range)
 
-    cv = StratifiedShuffleSplit(n_splits=5, test_size=0.2, random_state=42)
+    cv = StratifiedShuffleSplit(test_size=0.25, random_state=42)
     grid = GridSearchCV(SVC(), param_grid=param_grid, cv=cv)
     print('start to train...')
     grid.fit(X, labels)
