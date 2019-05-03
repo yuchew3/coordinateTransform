@@ -44,9 +44,9 @@ def tune_rbf_svm():
     scaler = StandardScaler()
     X = scaler.fit_transform(vid.T)
 
-    C_range = np.logspace(-2, 10, 13)
+    C_range = np.logspace(-1, 2, 4)
     print('C range: ', C_range)
-    gamma_range = np.logspace(-9, 3, 13)
+    gamma_range = np.logspace(-3, 3, 7) * 1. / x.shape[1] #(-3,3,7)
     print('gamma range: ', gamma_range)
     param_grid = dict(gamma=gamma_range, C=C_range)
 
