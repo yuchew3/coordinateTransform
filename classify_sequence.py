@@ -18,12 +18,11 @@ def select_models(X, y, k):
     y_train = y_train[k-1:]
     y_test = y_test[k-1:]
     classifiers = [
-        SVC(kernel="linear", C=0.025),
         SVC(gamma=2, C=1),
         RandomForestClassifier(max_depth=5, n_estimators=10, max_features=1),
         AdaBoostClassifier()
     ]
-    names = ['linear SVM', 'RBF SVM', 'Random Forest', 'AdaBoost']
+    names = ['RBF SVM', 'Random Forest', 'AdaBoost']
     train = []
     test = []
     for name, clf in zip(names, classifiers):
