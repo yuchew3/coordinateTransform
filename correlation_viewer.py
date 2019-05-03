@@ -5,6 +5,7 @@ from skimage import io
 import cv2
 import numpy as np
 from PIL import Image
+import ca_data_utils
 
 class GUI:
     def __init__(self, master):
@@ -55,6 +56,10 @@ class GUI:
         wake1Corr = np.matmul(self.wake1_ur[ind], np.matmul(self.wake1_covV, self.wake1_ur.T))
         wake2Corr = np.matmul(self.wake2_ur[ind], np.matmul(self.wake2_covV, self.wake2_ur.T))
         print(sleepCorr.shape)
+        sleepCorr = sleepCorr / np.sqrt(self.sleep_varP[ind] * self.sleep_varP)
+        wake1Corr = wake1Corr / np.sqrt(self.wake1_varP[ind] * self.wake1_varP)
+        wake2Corr = wake2Corr / np.sqrt(self.wake2_varP[ind] * self.wake2_varP)
+
 
     def get_pixel(self, event, x, y, flags, params):
         self.showCorr(x, y)
@@ -65,7 +70,7 @@ def main():
     gui = GUI(root)
 
     global current_x, current_y
-    reference = cv2.imread('../data/SliceImageCa7.png')
+    reference = ca_data_utils[0]
     cv2.namedWindow("reference", cv2.WINDOW_AUTOSIZE)
     cv2.setMouseCallback("reference", gui.get_pixel)
     cv2.imshow('reference', reference)
