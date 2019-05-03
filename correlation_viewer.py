@@ -50,6 +50,11 @@ class GUI:
     
     def showCorr(self, x, y):
         print('show ', x, y)
+        ind = 180 * x + y
+        sleepCorr = np.matmul(self.sleep_ur[ind], np.matmul(self.sleep_covV, self.sleep_ur.T))
+        wake1Corr = np.matmul(self.wake1_ur[ind], np.matmul(self.wake1_covV, self.wake1_ur.T))
+        wake2Corr = np.matmul(self.wake2_ur[ind], np.matmul(self.wake2_covV, self.wake2_ur.T))
+        print(sleepCorr.shape)
 
     def get_pixel(self, event, x, y, flags, params):
         self.showCorr(x, y)
