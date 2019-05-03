@@ -13,8 +13,8 @@ def select_models(X, y, k):
     # assume X.shape[0] > k
     print('k = ', k)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25) # random state?
-    X_train = [X_train[x:x+k] for x in range(X_train.shape[0]-k+1)]
-    X_test = [X_test[x:x+k] for x in range(X_test.shape[0]-k+1)]
+    X_train = [X_train[x:x+k].flatten() for x in range(X_train.shape[0]-k+1)]
+    X_test = [X_test[x:x+k].flatten() for x in range(X_test.shape[0]-k+1)]
     y_train = y_train[k-1:]
     y_test = y_test[k-1:]
     classifiers = [
