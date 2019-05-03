@@ -74,7 +74,7 @@ def main():
     cv2.namedWindow("reference", cv2.WINDOW_AUTOSIZE)
     cv2.setMouseCallback("reference", gui.get_pixel)
     cv2.imshow('reference', reference)
-    window = tkinter.Tk()
+    window = tk.Tk()
 
     root.mainloop()
 
