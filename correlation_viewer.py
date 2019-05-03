@@ -38,10 +38,10 @@ class GUI:
         self.wake2_covV = np.cov(self.wake2_svmat)
         print(self.sleep_covV.shape)
         print('done with cov v')
-        self.sleep_varP = np.sum(np.multiply(np.matmul(self.sleep_ur, self.sleep_covV.T), self.sleep_ur.T), axis=0)
+        self.sleep_varP = np.sum(np.multiply(np.matmul(self.sleep_ur, self.sleep_covV.T).T, self.sleep_ur.T), axis=0)
         print(self.sleep_varP.shape)
-        self.wake1_varP = np.sum(np.multiply(np.matmul(self.wake1_ur, self.wake1_covV.T), self.wake1_ur.T), axis=0)
-        self.wake2_varP = np.sum(np.multiply(np.matmul(self.wake2_ur, self.wake2_covV.T), self.wake2_ur.T), axis=0)
+        self.wake1_varP = np.sum(np.multiply(np.matmul(self.wake1_ur, self.wake1_covV.T).T, self.wake1_ur.T), axis=0)
+        self.wake2_varP = np.sum(np.multiply(np.matmul(self.wake2_ur, self.wake2_covV.T).T, self.wake2_ur.T), axis=0)
         print('done with var p')
 
 
