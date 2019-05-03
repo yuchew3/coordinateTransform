@@ -70,7 +70,7 @@ def main():
     gui = GUI(root)
 
     global current_x, current_y
-    reference = ca_data_utils[0]
+    reference = ca_data_utils.load_sleep_vid[0]
     cv2.namedWindow("reference", cv2.WINDOW_AUTOSIZE)
     cv2.setMouseCallback("reference", gui.get_pixel)
     cv2.imshow('reference', reference)
