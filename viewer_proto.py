@@ -56,8 +56,9 @@ class Data:
         ax3 = fig.add_subplot(2,2,4)
         ax3.imshow(wake2Corr.reshape((180,240)))
         s = '../data/pixel' + str(x) + '_' + str(y)
-        plt.show()
-        plt.close()
+        fig.savefig(s)
+        print('done saving fig')
+        #fig.show()
 
     def get_pixel(self, event, x, y, flags, params):
         if event == 1:
