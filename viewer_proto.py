@@ -35,7 +35,7 @@ class Data:
 
 
 
-        self.showCorr(1, 1)
+        self.showCorr(100, 100)
     
     def showCorr(self, x, y):
         print('show ', x, y)
@@ -51,26 +51,30 @@ class Data:
         fig = plt.figure()
         ax1 = fig.add_subplot(2,2,1)
         ax1.imshow(sleepCorr.reshape((180,240)))
-        ax2 = fig.add_subplot(2,2,2)
+        ax2 = fig.add_subplot(2,2,3)
         ax2.imshow(wake1Corr.reshape((180,240)))
-        ax3 = fig.add_subplot(2,2,3)
+        ax3 = fig.add_subplot(2,2,4)
         ax3.imshow(wake2Corr.reshape((180,240)))
         s = '../data/pixel' + str(x) + '_' + str(y)
         fig.savefig(s)
         print('done saving fig')
+        #fig.show()
 
-    def get_pixel(self, event, x, y, flags, params):
-        self.showCorr(x, y)
+    def get_pixel(self, event):
+        self.showCorr(event.x, event.y)
 
 def main():
     gui = Data()
 
     global current_x, current_y
-    reference = ca_data_utils.load_sleep_vid()[0]
-    cv2.namedWindow("reference", cv2.WINDOW_AUTOSIZE)
-    cv2.setMouseCallback("reference", gui.get_pixel)
-    while True:
-        cv2.imshow('reference', reference)
+    reference = ca_data_utils.load_sleep_vid()[:,0].reshape((180,240))
+    print(reference.shape)
+    main, ax = plt.subplots()
+    ax.imshow(reference)
+    cid = main.canvas.mpl_connect('button_press_event', gui.get_pixel)
+    ax.axis('off')
+    plt.tight_layout()
+    plt.show()
 
 if __name__ == '__main__':
     main()
