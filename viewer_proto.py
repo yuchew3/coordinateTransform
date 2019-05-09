@@ -61,8 +61,9 @@ class Data:
         print('done saving fig')
         #fig.show()
 
-    def get_pixel(self, event):
-        self.showCorr(event.x, event.y)
+    def get_pixel(self, event, x, y, flags, params):
+        if event == 1:
+            self.showCorr(x, y)
 
 def main():
     gui = Data()
