@@ -56,6 +56,7 @@ class Data:
         ax3 = fig.add_subplot(2,2,4)
         ax3.imshow(wake2Corr.reshape((180,240)))
         s = '../data/pixel' + str(x) + '_' + str(y)
+        fig.show()
         fig.savefig(s)
         print('done saving fig')
         #fig.show()
@@ -67,14 +68,20 @@ def main():
     gui = Data()
 
     global current_x, current_y
-    reference = ca_data_utils.load_sleep_vid()[:,0].reshape((180,240))
+    reference = io.imread('../data/vid.tif')[0]
     print(reference.shape)
     main, ax = plt.subplots()
-    ax.imshow(reference)
-    cid = main.canvas.mpl_connect('button_press_event', gui.get_pixel)
-    ax.axis('off')
-    plt.tight_layout()
-    plt.show()
+    # ax.imshow(reference)
+    # cid = main.canvas.mpl_connect('button_press_event', gui.get_pixel)
+    # ax.axis('off')
+    # plt.tight_layout()
+    # plt.show()
+    cv2.namedWindow("reference", cv2.WINDOW_AUTOSIZE)
+    cv2.setMouseCallback("reference", gui.get_pixel)
+    while True:
+        cv2.imshow("reference", reference)
+        if cv2.waitKey(20) & 0xFF == 27:
+            break
 
 if __name__ == '__main__':
     main()
