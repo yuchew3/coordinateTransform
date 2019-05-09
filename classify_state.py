@@ -51,7 +51,7 @@ def tune_rbf_svm():
     param_grid = dict(gamma=gamma_range, C=C_range)
 
     cv = StratifiedShuffleSplit(test_size=0.25, random_state=42)
-    grid = GridSearchCV(SVC(), param_grid=param_grid, cv=cv)
+    grid = GridSearchCV(SVC(), param_grid=param_grid, cv=cv, n_jobs=20)
     print('start to train...')
     grid.fit(X, labels)
 
