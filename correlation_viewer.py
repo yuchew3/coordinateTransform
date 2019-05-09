@@ -81,9 +81,7 @@ def main():
     reference = ca_data_utils.load_sleep_vid()[0]
     cv2.namedWindow("reference", cv2.WINDOW_AUTOSIZE)
     cv2.setMouseCallback("reference", gui.get_pixel)
-    while True:
-        cv2.imshow('reference', reference)
-    window = tk.Tk()
+    cv2.imshow('reference', reference)
 
     root.mainloop()
 
