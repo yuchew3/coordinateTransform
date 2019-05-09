@@ -57,6 +57,7 @@ class Data:
         ax3.imshow(wake2Corr.reshape((180,240)))
         s = '../data/pixel' + str(x) + '_' + str(y)
         plt.show()
+        plt.close()
 
     def get_pixel(self, event, x, y, flags, params):
         if event == 1:
