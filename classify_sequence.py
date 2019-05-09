@@ -69,5 +69,5 @@ def tune_rbf_svm():
 if __name__ == '__main__':
     vid = ca_data_utils.load_v_matrix().T[9:39992]
     labels = ca_data_utils.load_labels()[9:39992]
-    for k in range(2, 6):
+    for k in range(6, 12):
         select_models(vid, labels, k)
