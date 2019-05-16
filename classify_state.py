@@ -65,7 +65,7 @@ def tune_rbf_svm():
 def kernel_pca():
     X = ca_data_utils.load_v_matrix().T[8:39992]
     labels = ca_data_utils.load_labels()[8:39992]
-    kpca = KernelPCA(kernel="rbf", fit_inverse_transform=True, gamma=10)
+    kpca = KernelPCA(kernel="rbf", fit_inverse_transform=True, gamma=10, n_jobs=20)
     X_kpca = kpca.fit_transform(X)
     X_back = kpca.inverse_transform(X_kpca)
     # pca = PCA()
