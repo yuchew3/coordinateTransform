@@ -7,6 +7,7 @@ from sklearn.svm import SVC
 from sklearn.gaussian_process.kernels import RBF
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
+from sklearn.decomposition import PCA, KernelPCA
 from sklearn.preprocessing import StandardScaler
 
 def select_models():
@@ -61,7 +62,46 @@ def tune_rbf_svm():
     print('The results are:')
     print(grid.cv_results_)
 
+def kernel_pca():
+    X = ca_data_utils.load_v_matrix().T[8:39992]
+    labels = ca_data_utils.load_labels()[8:39992]
+    kpca = KernelPCA(kernel="rbf", fit_inverse_transform=True, gamma=10)
+    X_kpca = kpca.fit_transform(X)
+    X_back = kpca.inverse_transform(X_kpca)
+    # pca = PCA()
+    # X_pca = pca.fit_transform(X)
+
+    sleep = labels == 1
+    wake1 = labels == 2
+    wake2 = labels == 3
+
+    plt.figure()
+    plt.subplot(1, 2, 1, aspect='equal')
+    plt.title("Original space")
+    plt.scatter(X[sleep, 0], X[sleep, 1], c="red",
+            s=20, edgecolor='k')
+    plt.scatter(X[wake1, 0], X[wake1, 1], c="blue",
+            s=20, edgecolor='k')
+    plt.scatter(X[wake2, 0], X[wake2, 1], c='green',
+            s=20, edgecolors='k')
+    plt.xlabel("$x_1$")
+    plt.ylabel("$x_2$")
+
+    plt.subplot(1, 2, 2, aspect='equal')
+    plt.scatter(X_kpca[sleep, 0], X_kpca[sleep, 1], c="red",
+                s=20, edgecolor='k')
+    plt.scatter(X_kpca[wake1, 0], X_kpca[wake1, 1], c="blue",
+                s=20, edgecolor='k')
+    plt.scatter(X_kpca[wake2, 0], X_kpca[wake2, 1], c='green',
+                s=20, edgecolor='k')
+    plt.title("Projection by KPCA")
+    plt.xlabel(r"1st principal component in space induced by $\phi$")
+    plt.ylabel("2nd component")
+    plt.tight_layout()
+    plt.show()
+
+
 
 
 if __name__ == '__main__':
-    tune_rbf_svm()
+    kernel_pca()
