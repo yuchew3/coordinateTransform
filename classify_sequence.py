@@ -69,5 +69,14 @@ def tune_rbf_svm():
 if __name__ == '__main__':
     vid = ca_data_utils.load_v_matrix().T[9:39992]
     labels = ca_data_utils.load_labels()[9:39992]
-    for k in range(6, 12):
-        select_models(vid, labels, k)
+    clf = SVC(gamma=0.001, C=10)
+
+    scaler = StandardScaler()
+    X = scaler.fit_transform(vid)
+    X_train, X_test, y_train, y_test = train_test_split(X, labels, test_size=0.25)
+    print('start to train')
+    clf.fit(X_train, y_train)
+    print('finally finished tada~~')
+    y_pred = clf.predict(X)
+    print('saving y_pred for whole video, the accuracy for test data is ', clf.score(X_test, y_test))
+    np.save('../data/clf_results/y_pred', y_pred)
