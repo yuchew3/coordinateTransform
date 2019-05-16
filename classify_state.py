@@ -98,7 +98,7 @@ def kernel_pca():
     plt.xlabel(r"1st principal component in space induced by $\phi$")
     plt.ylabel("2nd component")
     plt.tight_layout()
-    plt.show()
+    plt.savefig('../data/clf_results/kpca')
 
 
 
