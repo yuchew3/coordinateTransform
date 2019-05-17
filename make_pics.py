@@ -138,7 +138,7 @@ def make_video():
         color='g'
         if (label != pred):
             color='r'
-        circle = plt.Circle((0, 0), 0.2, color=color)
+        circle = plt.Circle((0.5, 0), 0.2, color=color)
         ax2.add_artist(circle)
         fname = '../data/clf_results/video/image_{0:05d}'.format(i)
         i += 1
