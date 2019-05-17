@@ -4,6 +4,7 @@ import ast
 import json
 import matplotlib.pyplot as plt
 import ca_data_utils
+import skimage.io
 
 def window_size_pic():
     names = np.load('../data/clf_results/clf_names.npy')
@@ -125,7 +126,7 @@ def gridCV():
     # plt.show()
 
 def make_video():
-    vid = ca_data_utils.load_vid()[9:39992]
+    vid = skimage.io.imread('../data/vid.tif')[9:39992]
     labels = ca_data_utils.load_labels()[9:39992]
     preds = np.load('../data/clf_results/y_pred.npy')
     i = 0
