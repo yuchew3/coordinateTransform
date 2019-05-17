@@ -128,12 +128,17 @@ def make_video():
     vid = ca_data_utils.load_vid()[9:39992]
     labels = ca_data_utils.load_labels()[9:39992]
     preds = np.load('../data/clf_results/y_pred.npy')
-    for i in range(len(vid)):
+    i = 0
+    for frame, label, pred in zip(vid, labels, preds):
         f, (ax1,ax2) = plt.subplots(1, 2, gridspec_kw={'width_ratios': [5, 1]})
-        ax1.imshow(vid[i])
-        circle = plt.Circle((0, 0), 0.2, color='r')
+        ax1.imshow(frame)
+        color='g'
+        if (label != pred):
+            color='r'
+        circle = plt.Circle((0, 2), 0.2, color=color)
         ax2.add_artist(circle)
         fname = '../data/clf_results/video/image_{0:05d}'.format(i)
+        i += 1
         print(fname)
         f.savefig(fname)
 
