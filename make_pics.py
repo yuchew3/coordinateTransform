@@ -130,7 +130,7 @@ def make_video():
     preds = np.load('../data/clf_results/y_pred.npy')
     for i in range(len(vid)):
         f, (ax1,ax2) = plt.subplots(1, 2, gridspec_kw={'width_ratios': [5, 1]})
-        ax1.imshow(frame)
+        ax1.imshow(vid[i])
         circle = plt.Circle((0, 0), 0.2, color='r')
         ax2.add_artist(circle)
         fname = '../data/clf_results/video/image_{0:05d}'.format(i)
