@@ -138,8 +138,22 @@ def make_video():
         color='g'
         if (label != pred):
             color='r'
-        circle = plt.Circle((0.5, 2), 0.2, color=color)
+        circle = plt.Ellipse((0.5, 0.1), 0.5, 0.1, color=color)
+        color='r' # sleep
+        if label == 2: # wake1
+            color = 'g'
+        elif label==3: # wake2
+            color = 'b'
+        actual = plt.Ellipse((0.5, 0.9), 0.5, 0.1, color=color)
+        color='r' # sleep
+        if pred == 2: # wake1
+            color = 'g'
+        elif pred==3: # wake2
+            color = 'b'
+        got = plt.Ellipse((0.5, 0.7), 0.5, 0.1, color=color)
         ax2.add_artist(circle)
+        ax2.add_artist(actual)
+        ax2.add_artist(got)
         fname = '../data/clf_results/video/image_{0:05d}'.format(i)
         i += 1
         print(fname)
