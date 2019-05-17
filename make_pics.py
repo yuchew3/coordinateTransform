@@ -130,6 +130,8 @@ def make_video():
     preds = np.load('../data/clf_results/y_pred.npy')
     i = 0
     for frame, label, pred in zip(vid, labels, preds):
+        print('startint ', i)
+        print(frame.shape)
         f, (ax1,ax2) = plt.subplots(1, 2, gridspec_kw={'width_ratios': [5, 1]})
         ax1.imshow(frame)
         color='g'
