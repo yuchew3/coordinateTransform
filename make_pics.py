@@ -143,8 +143,8 @@ def make_video():
         fname = '../data/clf_results/video/image_{0:05d}'.format(i)
         i += 1
         print(fname)
-        f.axes.get_xaxis().set_visible(False)
-        f.axes.get_yaxis().set_visible(False)
+        ax2.get_xaxis().set_visible(False)
+        ax2.get_yaxis().set_visible(False)
         f.savefig(fname)
 
 
