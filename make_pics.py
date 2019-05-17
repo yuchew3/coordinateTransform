@@ -138,13 +138,13 @@ def make_video():
         color='g'
         if (label != pred):
             color='r'
-        circle = plt.Circle((0.5, 0), 0.2, color=color)
+        circle = plt.Circle((0.5, 2), 0.2, color=color)
         ax2.add_artist(circle)
         fname = '../data/clf_results/video/image_{0:05d}'.format(i)
         i += 1
         print(fname)
-        ax2.get_xaxis().set_visible(False)
-        ax2.get_yaxis().set_visible(False)
+        # ax2.get_xaxis().set_visible(False)
+        # ax2.get_yaxis().set_visible(False)
         f.savefig(fname)
 
 
