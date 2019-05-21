@@ -28,7 +28,7 @@ def select_k(X, y, k):
     grid = GridSearchCV(SVC(), param_grid=param_grid, cv=cv, n_jobs=20)
 
     print('start to train...')
-    grid.fit(X, labels)
+    grid.fit(X, y)
     print('finished')
     df = pd.DataFrame.from_dict(grid.cv_results_)
     filename = 'result_' + str(k)
