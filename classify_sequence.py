@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import ca_data_utils
+import pandas as pd
 
 from sklearn.model_selection import train_test_split, GridSearchCV, StratifiedShuffleSplit
 from sklearn.svm import SVC
@@ -8,6 +9,35 @@ from sklearn.gaussian_process.kernels import RBF
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.preprocessing import StandardScaler
+
+def select_k(X, y, k):
+    print('k = ', k)
+    X = [X[x:x+k].flatten() for x in range(X.shape[0]-k+1)]
+    y = y[k-1:]
+
+    scaler = StandardScaler()
+    X = scaler.fit_transform(X)
+    
+    C_range = np.logspace(-1, 2, 4)
+    print('C range: ', C_range)
+    gamma_range = np.logspace(-1, 2, 4) * 1. / X_train.shape[1]
+    print('gamma range: ', gamma_range)
+    param_grid = dict(gamma=gamma_range, C=C_range)
+
+    cv = StratifiedShuffleSplit(n_splits=4, test_size=0.25)
+    grid = GridSearchCV(SVC(), param_grid=param_grid, cv=cv, n_jobs=20)
+
+    print('start to train...')
+    grid.fit(X, labels)
+    print('finished')
+    df = pd.DataFrame.from_dict(grid.cv_results_)
+    filename = 'result_' + str(k)
+    df.to_csv(filename)
+    print('done with k = ', k)
+    print("The best parameters are %s with a score of %0.2f"
+        % (grid.best_params_, grid.best_score_))
+
+
 
 def select_models(X, y, k):
     # assume X.shape[0] > k
@@ -69,14 +99,18 @@ def tune_rbf_svm():
 if __name__ == '__main__':
     vid = ca_data_utils.load_v_matrix().T[9:39992]
     labels = ca_data_utils.load_labels()[9:39992]
-    clf = SVC(gamma=0.001, C=10)
 
-    scaler = StandardScaler()
-    X = scaler.fit_transform(vid)
-    X_train, X_test, y_train, y_test = train_test_split(X, labels, test_size=0.25)
-    print('start to train')
-    clf.fit(X_train, y_train)
-    print('finally finished tada~~')
-    y_pred = clf.predict(X)
-    print('saving y_pred for whole video, the accuracy for test data is ', clf.score(X_test, y_test))
-    np.save('../data/clf_results/y_pred', y_pred)
+    for k in range(2, 11):
+        select_k(vid, labels, k)
+
+
+    # clf = SVC(gamma=0.001, C=10)
+
+    # scaler = StandardScaler()
+    # X = scaler.fit_transform(vid)
+    # X_train, X_test, y_train, y_test = train_test_split(X, labels, test_size=0.25)
+    # print('start to train')
+    # clf.fit(X_train, y_train)
+    # print('finally finished tada~~')
+    # y_pred = clf.predict(X)
+    # print('saving y_pred for whole video, the accuracy for test data is ', clf.score(X_test, y_test))
