@@ -20,7 +20,7 @@ def select_k(X, y, k):
     
     C_range = np.logspace(-1, 2, 4)
     print('C range: ', C_range)
-    gamma_range = np.logspace(-1, 2, 4) * 1. / X_train.shape[1]
+    gamma_range = np.logspace(-1, 2, 4) * 1. / X.shape[1]
     print('gamma range: ', gamma_range)
     param_grid = dict(gamma=gamma_range, C=C_range)
 
