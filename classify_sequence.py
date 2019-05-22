@@ -24,8 +24,8 @@ def select_k(X, y, k):
     print('gamma range: ', gamma_range)
     param_grid = dict(gamma=gamma_range, C=C_range)
 
-    cv = StratifiedShuffleSplit(n_splits=4, test_size=0.25)
-    grid = GridSearchCV(SVC(), param_grid=param_grid, cv=cv, n_jobs=20)
+    # cv = StratifiedShuffleSplit(n_splits=4, test_size=0.25)
+    grid = GridSearchCV(SVC(), param_grid=param_grid, n_jobs=20)
 
     print('start to train...')
     grid.fit(X, y)
@@ -42,7 +42,7 @@ def select_k(X, y, k):
 def select_models(X, y, k):
     # assume X.shape[0] > k
     print('k = ', k)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25) # random state?
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, shuffle=False) # random state?
     X_train = [X_train[x:x+k].flatten() for x in range(X_train.shape[0]-k+1)]
     X_test = [X_test[x:x+k].flatten() for x in range(X_test.shape[0]-k+1)]
     y_train = y_train[k-1:]
@@ -72,7 +72,7 @@ def select_models(X, y, k):
 
 def tune_rbf_svm():
     vid = ca_data_utils.load_v_matrix()[:,9:39992]
-    labels = ca_data_utils.load_labels()[9:39992]
+    ddlabels = ca_data_utils.load_labels()[9:39992]
 
     scaler = StandardScaler()
     X = scaler.fit_transform(vid.T)
@@ -101,6 +101,7 @@ if __name__ == '__main__':
     labels = ca_data_utils.load_labels()[9:39992]
 
     for k in range(2, 11):
+        select_models(vid, labels, k)
         select_k(vid, labels, k)
 
 
