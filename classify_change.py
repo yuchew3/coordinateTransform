@@ -10,16 +10,19 @@ def load_data():
     labels = np.array(labels)
     X = [X[k+1] - X[k] for k in range(len(X) - 1)]
     labels[labels!=0] = 1
-    print(labels)
     return X, labels
 
 if __name__ == '__main__':
     X, labels = load_data()
-    # clf = SVC(C=0.1, gamma=0.01)
-    # clf.fit(X[:30000], labels[:30000])
-    # score = clf.score(X[30000:], labels[30000:])
-    a = np.where(labels==1)
-    print(a[0])
-    print(len(a[0]))
-    print(len(labels))
-    # print(score)
+    x = np.linspace(0, 39980, 250)
+    x.append(np.where(labels==1)[0])
+    x = np.sort(np.array(x))
+    total_len = len(x)
+    cut = int(3 * total_len / 4)
+    print(len(x))
+    X = X[x]
+    labels = labels[x]
+    clf = SVC(C=0.1, gamma=0.01)
+    clf.fit(X[:cut], labels[:cut])
+    score = clf.score(X[cut:], labels[cut:])
+    print(score)
