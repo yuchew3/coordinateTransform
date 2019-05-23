@@ -11,7 +11,7 @@ def load_data():
     labels[labels != 0] = 1
     return X, labels
 
-if __main__ == '__name__':
+if __name__ == '__main__':
     X, labels = load_data()
     clf = SVC(C=0.1, gamma=0.01)
     clf.fit(X[:30000], labels[:30000])
