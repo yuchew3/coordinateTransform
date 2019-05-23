@@ -57,6 +57,6 @@ if __name__ == '__main__':
 
     for name, clf in zip(names, classifiers):
         print('starting ', name)
-        clf.fit(X[:cut, labels[:cut]])
+        clf.fit(X[:cut], labels[:cut])
         score = clf.score(X[cut:], labels[cut:])
         print('---> test accuracy is ', str(score))
