@@ -7,10 +7,10 @@ def load_data():
     labels = ca_data_utils.load_labels()[9:39992]
     labels[labels==3] = 2
     labels = [labels[k+1] - labels[k] for k in range(len(labels)-1)]
+    labels = np.array(labels)
     X = [X[k+1] - X[k] for k in range(len(X) - 1)]
-    labels[labels==-1] = 1
+    labels[labels!=0] = 1
     print(labels)
-    print(type(labels[0]))
     return X, labels
 
 if __name__ == '__main__':
