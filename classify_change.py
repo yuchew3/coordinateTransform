@@ -14,7 +14,8 @@ def load_data():
 
 if __name__ == '__main__':
     X, labels = load_data()
-    x = np.linspace(0, 39750, 250)
+    x = np.linspace(0, 39750, 250, dtype=int)
+    
     x = np.concatenate(x, np.where(labels==1)[0])
     x = np.sort(np.array(x))
     total_len = len(x)
