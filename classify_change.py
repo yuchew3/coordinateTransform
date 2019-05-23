@@ -19,11 +19,11 @@ if __name__ == '__main__':
     b = np.where(labels==1)[0]
     print(b.shape)
     x = np.concatenate((x, b))
-    x = np.sort(np.array(x))
+    x = np.sort(x)
     total_len = len(x)
     cut = int(3 * total_len / 4)
     print(len(x))
-    X = X[x]
+    X = np.array(X)[x]
     labels = labels[x]
     clf = SVC(C=0.1, gamma=0.01)
     clf.fit(X[:cut], labels[:cut])
