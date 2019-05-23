@@ -1,5 +1,6 @@
 import numpy as np
 from sklearn.svm import SVC
+from sklearn.neural_network import MLPClassifier
 import ca_data_utils
 
 def load_data():
@@ -25,7 +26,7 @@ if __name__ == '__main__':
     print(len(x))
     X = np.array(X)[x]
     labels = labels[x]
-    clf = SVC(C=0.1, gamma=0.01)
+    clf = MLPClassifier()
     clf.fit(X[:cut], labels[:cut])
     score = clf.score(X[cut:], labels[cut:])
     print(score)
