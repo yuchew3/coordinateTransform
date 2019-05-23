@@ -18,7 +18,7 @@ if __name__ == '__main__':
     print(x.shape)
     b = np.where(labels==1)[0]
     print(b.shape)
-    x = np.concatenate(x, b.flatten())
+    x = np.concatenate((x, b))
     x = np.sort(np.array(x))
     total_len = len(x)
     cut = int(3 * total_len / 4)
