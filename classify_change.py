@@ -16,4 +16,7 @@ if __name__ == '__main__':
     clf = SVC(C=0.1, gamma=0.01)
     clf.fit(X[:30000], labels[:30000])
     score = clf.score(X[30000:], labels[30000:])
+    a = np.where(labels==0)
+    print(len(a))
+    print(len(labels))
     print(score)
