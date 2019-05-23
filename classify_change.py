@@ -5,6 +5,7 @@ import ca_data_utils
 def load_data():
     X = ca_data_utils.load_v_matrix().T[8:39992]
     labels = ca_data_utils.load_labels()[8:39992]
+    print(labels)
     labels[labels==3] = 2
     print(len(np.where(labels == 1)))
     print(len(np.where(labels == 2)))
