@@ -9,8 +9,8 @@ def load_data():
     labels = [labels[k+1] - labels[k] for k in range(len(labels)-1)]
     X = [X[k+1] - X[k] for k in range(len(X) - 1)]
     labels[labels==-1] = 1
-    print(type(labels[0]))
     print(labels)
+    print(type(labels[0]))
     return X, labels
 
 if __name__ == '__main__':
