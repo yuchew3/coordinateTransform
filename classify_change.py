@@ -3,11 +3,12 @@ from sklearn.svm import SVC
 import ca_data_utils
 
 def load_data():
-    X = ca_data_utils.load_v_matrix().T[8:39992]
-    labels = ca_data_utils.load_labels()[8:39992]
+    X = ca_data_utils.load_v_matrix().T[9:39992]
+    labels = ca_data_utils.load_labels()[9:39992]
     print(labels)
     labels[labels==3] = 2
-    print(len(np.where(labels == 1)))
+    print(labels)
+    print(np.where(labels == 1))
     print(len(np.where(labels == 2)))
     labels = [labels[k+1] - labels[k] for k in range(len(labels)-1)]
     X = [X[k+1] - X[k] for k in range(len(X) - 1)]
