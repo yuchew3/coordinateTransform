@@ -8,7 +8,7 @@ def load_data():
     labels[labels==3] = 2
     labels = [labels[k+1] - labels[k] for k in range(len(labels)-1)]
     X = [X[k+1] - X[k] for k in range(len(X) - 1)]
-    labels[labels != 0] = 1
+    labels[labels==-1] = 1
     print(labels)
     return X, labels
 
@@ -21,4 +21,4 @@ if __name__ == '__main__':
     print(a[0])
     print(len(a[0]))
     print(len(labels))
-    print(score)
+    # print(score)
