@@ -100,7 +100,7 @@ if __name__ == '__main__':
     vid = ca_data_utils.load_v_matrix().T[9:39992]
     labels = ca_data_utils.load_labels()[9:39992]
 
-    for k in range(2, 11):
+    for k in range(5, 11):
         select_models(vid, labels, k)
         # select_k(vid, labels, k)
 
