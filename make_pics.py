@@ -9,9 +9,9 @@ import skimage.io
 
 def window_size_pic():
     names = np.load('../data/clf_results/clf_names.npy')
-    test_accu = np.zeros((3,12))
-    train_accu = np.zeros((3,12))
-    for i in range(2,12):
+    test_accu = np.zeros((3,5))
+    train_accu = np.zeros((3,5))
+    for i in range(2,5):
         test_entry = np.load('../data/clf_results/test_accuracy_'+str(i)+'.npy')
         test_accu[:,i] = test_entry
         train_entry = np.load('../data/clf_results/train_accuracy_'+str(i)+'.npy')
@@ -164,5 +164,5 @@ def make_video():
 
 
 if __name__ == '__main__':
-    # window_size_pic()
-    make_video()
+    window_size_pic()
+    # make_video()
