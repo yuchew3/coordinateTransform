@@ -17,7 +17,7 @@ def window_size_pic():
         train_entry = np.load('../data/clf_results/train_accuracy_'+str(i)+'.npy')
         train_accu[:,i] = train_entry
     
-    window_sizes = range(2,12)
+    window_sizes = range(2,5)
     figure = plt.figure()
     ax = plt.subplot(111)
     ax.plot(window_sizes, test_accu[0,2:], 'b-', label=names[0]+' test accuracy')
