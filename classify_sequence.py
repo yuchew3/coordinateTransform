@@ -102,7 +102,7 @@ if __name__ == '__main__':
 
     for k in range(2, 11):
         select_models(vid, labels, k)
-        select_k(vid, labels, k)
+        # select_k(vid, labels, k)
 
 
     # clf = SVC(gamma=0.001, C=10)
