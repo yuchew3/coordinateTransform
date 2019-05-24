@@ -48,7 +48,7 @@ def select_models(X, y, k):
     y_train = y_train[k-1:]
     y_test = y_test[k-1:]
     classifiers = [
-        SVC(gamma=2, C=1),
+        SVC(gamma=2, C=0.001),
         RandomForestClassifier(max_depth=5, n_estimators=10, max_features=1),
         AdaBoostClassifier()
     ]
