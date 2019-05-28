@@ -12,4 +12,6 @@ def load_data(step):
 if __name__ == "__main__":
     X, labels = load_data(2)
     X = X[:,0]
-    print(X.shape)
+    lags = 10
+    dataset = np.fromfunction(lambda x, y: pd.Series(X[x]).autocorr(lags=y+1), (len(X), lags))
+    print(dataset.shape)
