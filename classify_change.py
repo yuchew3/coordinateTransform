@@ -34,7 +34,7 @@ if __name__ == '__main__':
     # print(b.shape)
     # x = np.concatenate((x, b))
     # x = np.sort(x)
-    # total_len = len(x)
+    total_len = len(X)
     cut = int(3 * total_len / 4)
     # print(len(x))
     # X = np.array(X)[x]
