@@ -14,8 +14,8 @@ if __name__ == "__main__":
     # X = X[:,0]
     lags = 10
     # dataset = np.fromfunction(lambda i, j: pd.Series(X[i]).autocorr(lag=j+1), (len(X), lags))
-    dataset = np.zeros((len(X), lags))
-    for i in range(len(X)):
+    dataset = np.zeros(X.shape[1], lags))
+    for i in range(X.shape[1]):
         series = pd.Series(X[:,i])
         for j in range(lags):
             corr = series.autocorr(lag=j+1)
