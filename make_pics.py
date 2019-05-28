@@ -9,15 +9,15 @@ import skimage.io
 
 def window_size_pic():
     names = np.load('../data/clf_results/clf_names.npy')
-    test_accu = np.zeros((3,5))
-    train_accu = np.zeros((3,5))
-    for i in range(2,5):
+    test_accu = np.zeros((3,11))
+    train_accu = np.zeros((3,11))
+    for i in range(2,11):
         test_entry = np.load('../data/clf_results/test_accuracy_'+str(i)+'.npy')
         test_accu[:,i] = test_entry
         train_entry = np.load('../data/clf_results/train_accuracy_'+str(i)+'.npy')
         train_accu[:,i] = train_entry
     
-    window_sizes = range(2,5)
+    window_sizes = range(2,11)
     figure = plt.figure()
     ax = plt.subplot(111)
     ax.plot(window_sizes, test_accu[0,2:], 'b-', label=names[0]+' test accuracy')
