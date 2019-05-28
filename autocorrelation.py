@@ -16,7 +16,7 @@ if __name__ == "__main__":
     # dataset = np.fromfunction(lambda i, j: pd.Series(X[i]).autocorr(lag=j+1), (len(X), lags))
     dataset = np.zeros((len(X), lags))
     for i in range(len(X)):
-        series = pd.Series(X[i])
+        series = pd.Series(X[:,i])
         for j in range(lags):
             corr = series.autocorr(lag=j+1)
             dataset[i, j] = corr
