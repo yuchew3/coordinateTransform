@@ -13,11 +13,12 @@ if __name__ == "__main__":
     X, labels = load_data(2)
     # X = X[:,0]
     lags = 10
-    dataset = np.fromfunction(lambda i, j: pd.Series(X[i]).autocorr(lag=j+1), (len(X), lags))
-    # dataset = np.zeros((len(X), lags))
-    # for i in range(len(X)):
-    #     series = pd.Series(X[i])
-    #     for j in range(lags):
-    #         corr = series.autocorr(lag=j+1)
-    #         dataset[i, j] = corr
+    # dataset = np.fromfunction(lambda i, j: pd.Series(X[i]).autocorr(lag=j+1), (len(X), lags))
+    dataset = np.zeros((len(X), lags))
+    for i in range(len(X)):
+        series = pd.Series(X[i])
+        for j in range(lags):
+            corr = series.autocorr(lag=j+1)
+            dataset[i, j] = corr
+    np.save('../data/autocorr', dataset)
     print(dataset.shape)
