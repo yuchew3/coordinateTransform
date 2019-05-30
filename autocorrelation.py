@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import ca_data_utils
+import xgboost
 from sklearn.svm import SVC
 from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import train_test_split
@@ -20,57 +21,64 @@ def load_data(step):
     v = ca_data_utils.load_v_matrix().T[9:39992:step]
     labels = ca_data_utils.load_labels()[9:39992:step]
     return v, labels
-    
 
-
-if __name__ == "__main__":
+def one_iter(length, lags):
     X, labels = load_data(2)
-    # X = X[:,::4]
-    # print(X.shape)
-    length = 10
+    X = X[:,::4]
+    print(X.shape)
+    # length = 10
     # lags = 5
-    # # dataset = np.fromfunction(lambda i, j: pd.Series(X[i]).autocorr(lag=j+1), (len(X), lags))
-    # # for i in range(X.shape[0]-length):
-    # #     series = pd.Series(X[:,i])
-    # #     for j in range(lags):
-    # #         corr = series.autocorr(lag=j+1)
-    # #         dataset[i, j] = corr
+    # dataset = np.fromfunction(lambda i, j: pd.Series(X[i]).autocorr(lag=j+1), (len(X), lags))
+    # for i in range(X.shape[0]-length):
+    #     series = pd.Series(X[:,i])
+    #     for j in range(lags):
+    #         corr = series.autocorr(lag=j+1)
+    #         dataset[i, j] = corr
 
-    # dataset = np.zeros((X.shape[0]-length+1, X.shape[1]*lags))
-    # for i in range(dataset.shape[0]):
-    #     x = X[i:i+length]
-    #     for p in range(X.shape[1]):
-    #         series = pd.Series(x[:,p])
-    #         for j in range(lags):
-    #             corr = series.autocorr(lag=j+1)
-    #             dataset[i, p*lags+j] = corr
-    # print(dataset.shape)
+    dataset = np.zeros((X.shape[0]-length+1, X.shape[1]*lags))
+    for i in range(dataset.shape[0]):
+        x = X[i:i+length]
+        for p in range(X.shape[1]):
+            series = pd.Series(x[:,p])
+            for j in range(lags):
+                corr = series.autocorr(lag=j+1)
+                dataset[i, p*lags+j] = corr
+    print(dataset.shape)
     labels = labels[length-1:]
-    dataset = np.load('../data/autocorr_2.npy')
     total_len = len(dataset)
     cut = int(3 * total_len / 4)
-
-    # np.save('../data/autocorr_2', dataset)
+    fn = '../data/autocorr_len' + str(length) + '_lag' + str(lags)
+    np.save(fn, dataset)
     print(dataset.shape)
 
     classifiers = [
         KNeighborsClassifier(3),
         SVC(kernel="linear", C=0.025),
-        SVC(gamma=2, C=1),
+        SVC(gamma=2, C=0.001),
         GaussianProcessClassifier(1.0 * RBF(1.0)),
         DecisionTreeClassifier(max_depth=5),
         RandomForestClassifier(max_depth=5, n_estimators=10, max_features=1),
         MLPClassifier(alpha=1, max_iter=1000),
         AdaBoostClassifier(),
         GaussianNB(),
-        QuadraticDiscriminantAnalysis()]
+        QuadraticDiscriminantAnalysis(),
+        xgb.XGBClassifier()]
     
     names = ["Nearest Neighbors", "Linear SVM", "RBF SVM", "Gaussian Process",
          "Decision Tree", "Random Forest", "Neural Net", "AdaBoost",
-         "Naive Bayes", "QDA"]
+         "Naive Bayes", "QDA", "XGBoost"]
 
+    scores = []
     for name, clf in zip(names, classifiers):
         print('starting ', name)
         clf.fit(dataset[:cut], labels[:cut])
         score = clf.score(dataset[cut:], labels[cut:])
+        scores.add(score)
         print('---> test accuracy is ', str(score))
+    fn = '../data/clf_results/autocorr_len' + str(length) + '_lag' + str(lags)
+    np.save(fn, scores)
+
+if __name__ == "__main__":
+    for i in range(6, 11):
+        print('lags = ', i)
+        one_iter(i*2, i)
