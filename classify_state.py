@@ -103,8 +103,8 @@ def kernel_pca():
     plt.savefig('../data/clf_results/kpca')
 
 def xgboost(max_depth):
-    X = ca_data_utils.load_v_matrix().T[8:39992:2]
-    labels = ca_data_utils.load_labels()[8:39992:2]
+    X = ca_data_utils.load_v_matrix().T[8:39992:5]
+    labels = ca_data_utils.load_labels()[8:39992:5]
     clf = xgb.XGBClassifier(max_depth=max_depth)
     total_len = len(labels)
     cut = int(3 * total_len / 4)
