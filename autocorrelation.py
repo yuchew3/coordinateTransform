@@ -25,32 +25,33 @@ def load_data(step):
 
 if __name__ == "__main__":
     X, labels = load_data(2)
-    X = X[:,::4]
-    print(X.shape)
+    # X = X[:,::4]
+    # print(X.shape)
     length = 10
-    lags = 5
-    # dataset = np.fromfunction(lambda i, j: pd.Series(X[i]).autocorr(lag=j+1), (len(X), lags))
-    # for i in range(X.shape[0]-length):
-    #     series = pd.Series(X[:,i])
-    #     for j in range(lags):
-    #         corr = series.autocorr(lag=j+1)
-    #         dataset[i, j] = corr
+    # lags = 5
+    # # dataset = np.fromfunction(lambda i, j: pd.Series(X[i]).autocorr(lag=j+1), (len(X), lags))
+    # # for i in range(X.shape[0]-length):
+    # #     series = pd.Series(X[:,i])
+    # #     for j in range(lags):
+    # #         corr = series.autocorr(lag=j+1)
+    # #         dataset[i, j] = corr
 
-    dataset = np.zeros((X.shape[0]-length+1, X.shape[1]*lags))
-    for i in range(dataset.shape[0]):
-        x = X[i:i+length]
-        for p in range(X.shape[1]):
-            series = pd.Series(x[:,p])
-            for j in range(lags):
-                corr = series.autocorr(lag=j+1)
-                dataset[i, p*lags+j] = corr
-    print(dataset.shape)
+    # dataset = np.zeros((X.shape[0]-length+1, X.shape[1]*lags))
+    # for i in range(dataset.shape[0]):
+    #     x = X[i:i+length]
+    #     for p in range(X.shape[1]):
+    #         series = pd.Series(x[:,p])
+    #         for j in range(lags):
+    #             corr = series.autocorr(lag=j+1)
+    #             dataset[i, p*lags+j] = corr
+    # print(dataset.shape)
     labels = labels[length-1:]
 
     total_len = len(dataset)
     cut = int(3 * total_len / 4)
 
-    np.save('../data/autocorr_2', dataset)
+    # np.save('../data/autocorr_2', dataset)
+    dataset = np.load('../data/autocorr_2.npy')
     print(dataset.shape)
 
     classifiers = [
@@ -71,6 +72,6 @@ if __name__ == "__main__":
 
     for name, clf in zip(names, classifiers):
         print('starting ', name)
-        clf.fit(X[:cut], labels[:cut])
-        score = clf.score(X[cut:], labels[cut:])
+        clf.fit(dataset[:cut], labels[:cut])
+        score = clf.score(dataset[cut:], labels[cut:])
         print('---> test accuracy is ', str(score))
