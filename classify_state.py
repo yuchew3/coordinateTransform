@@ -102,19 +102,18 @@ def kernel_pca():
     plt.tight_layout()
     plt.savefig('../data/clf_results/kpca')
 
-def xgboost(learning_rate):
+def xgboost(booster):
     X = ca_data_utils.load_v_matrix().T[8:39992:5]
     labels = ca_data_utils.load_labels()[8:39992:5]
-    clf = xgb.XGBClassifier(learning_rate=learning_rate)
+    clf = xgb.XGBClassifier(booster=booster)
     total_len = len(labels)
     cut = int(3 * total_len / 4)
     clf.fit(X[:cut], labels[:cut])
     score = clf.score(X[cut:], labels[cut:])
     print(score)
 
-
 if __name__ == '__main__':
     # kernel_pca()
-    for i in np.logspace(-3, 3, 7):
-        print('for learning rate = ', i)
+    for i in ['gbtree', 'gblinear', 'dart']:
+        print('for boost = ', i)
         xgboost(i)
