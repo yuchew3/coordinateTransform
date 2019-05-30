@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import ca_data_utils
+import xgboost as xgb
 
 from sklearn.model_selection import train_test_split, GridSearchCV, StratifiedShuffleSplit
 from sklearn.svm import SVC
@@ -101,8 +102,17 @@ def kernel_pca():
     plt.tight_layout()
     plt.savefig('../data/clf_results/kpca')
 
-
+def xgboost():
+    X = ca_data_utils.load_v_matrix().T[8:39992:2]
+    labels = ca_data_utils.load_labels()[8:39992:2]
+    clf = xgb.XGBClassifier()
+    total_len = len(labels)
+    cut = int(3 * total_len / 4)
+    clf.fit(X[:cut], labels[:cut])
+    score = clf.score(X[cut:], labels[cut:])
+    print(score)
 
 
 if __name__ == '__main__':
-    kernel_pca()
+    # kernel_pca()
+    xgboost()
