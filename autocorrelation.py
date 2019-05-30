@@ -46,12 +46,11 @@ if __name__ == "__main__":
     #             dataset[i, p*lags+j] = corr
     # print(dataset.shape)
     labels = labels[length-1:]
-
+    dataset = np.load('../data/autocorr_2.npy')
     total_len = len(dataset)
     cut = int(3 * total_len / 4)
 
     # np.save('../data/autocorr_2', dataset)
-    dataset = np.load('../data/autocorr_2.npy')
     print(dataset.shape)
 
     classifiers = [
