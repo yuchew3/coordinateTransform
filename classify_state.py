@@ -102,10 +102,10 @@ def kernel_pca():
     plt.tight_layout()
     plt.savefig('../data/clf_results/kpca')
 
-def xgboost(reg_alpha):
+def xgboost(gamma):
     X = ca_data_utils.load_v_matrix().T[8:39992:5]
     labels = ca_data_utils.load_labels()[8:39992:5]
-    clf = xgb.XGBClassifier(reg_alpha=reg_alpha, learning_rate=0.1)
+    clf = xgb.XGBClassifier(gamma=gamma, learning_rate=0.1)
     total_len = len(labels)
     cut = int(3 * total_len / 4)
     clf.fit(X[:cut], labels[:cut])
@@ -114,6 +114,6 @@ def xgboost(reg_alpha):
 
 if __name__ == '__main__':
     # kernel_pca()
-    for i in np.logspace(-3, 3, 7):
-        print('for L1 regularization = ', i)
+    for i in [0, 0.1, 0.2, 0.3, 0.4, 0.5]:
+        print('for gamma = ', i)
         xgboost(i)
