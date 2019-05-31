@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import ca_data_utils
-import xgboost
+import xgboost as xgb
 from sklearn.svm import SVC
 from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import train_test_split
