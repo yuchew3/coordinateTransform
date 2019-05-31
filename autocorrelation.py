@@ -51,7 +51,7 @@ def one_iter(length, lags):
         fn = '../data/autocorr_len' + str(length) + '_lag' + str(lags)
         np.save(fn, dataset)
         print(dataset.shape)
-        
+
     labels = labels[length-1:]
     total_len = len(dataset)
     cut = int(3 * total_len / 4)
@@ -78,7 +78,7 @@ def one_iter(length, lags):
         print('starting ', name)
         clf.fit(dataset[:cut], labels[:cut])
         score = clf.score(dataset[cut:], labels[cut:])
-        scores.add(score)
+        scores.append(score)
         print('---> test accuracy is ', str(score))
     fn = '../data/clf_results/autocorr_len' + str(length) + '_lag' + str(lags)
     np.save(fn, scores)
