@@ -35,21 +35,26 @@ def one_iter(length, lags):
     #         corr = series.autocorr(lag=j+1)
     #         dataset[i, j] = corr
 
-    dataset = np.zeros((X.shape[0]-length+1, X.shape[1]*lags))
-    for i in range(dataset.shape[0]):
-        x = X[i:i+length]
-        for p in range(X.shape[1]):
-            series = pd.Series(x[:,p])
-            for j in range(lags):
-                corr = series.autocorr(lag=j+1)
-                dataset[i, p*lags+j] = corr
-    print(dataset.shape)
+    if lags == 6:
+        dataset = np.load('../data/autocorr_len12_lag6.npy')
+        
+    else:
+        dataset = np.zeros((X.shape[0]-length+1, X.shape[1]*lags))
+        for i in range(dataset.shape[0]):
+            x = X[i:i+length]
+            for p in range(X.shape[1]):
+                series = pd.Series(x[:,p])
+                for j in range(lags):
+                    corr = series.autocorr(lag=j+1)
+                    dataset[i, p*lags+j] = corr
+        print(dataset.shape)
+        fn = '../data/autocorr_len' + str(length) + '_lag' + str(lags)
+        np.save(fn, dataset)
+        print(dataset.shape)
+        
     labels = labels[length-1:]
     total_len = len(dataset)
     cut = int(3 * total_len / 4)
-    fn = '../data/autocorr_len' + str(length) + '_lag' + str(lags)
-    np.save(fn, dataset)
-    print(dataset.shape)
 
     classifiers = [
         KNeighborsClassifier(3),
