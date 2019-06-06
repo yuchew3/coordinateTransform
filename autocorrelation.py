@@ -21,7 +21,7 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 def load_auto_data():
     lags = 10
     length = 2 * lags
-    fn = '../data/clf_results/autocorr_len' + str(length) + '_lag' + str(lags) + '.npy'
+    fn = '../data/autocorr_len20_lag10.npy'
     X = np.load(fn)
     labels = ca_data_utils.load_labels()[9:39992:2]
     labels = labels[length-1:]
