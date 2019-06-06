@@ -34,7 +34,7 @@ def load_auto_data():
     gammas = np.linspace(0.0,0.4,5)
     reg_alphas = np.logspace(-1,2,4)
     param_dict = dict(max_depth=max_lens, learning_rate=learning_rates,n_estimators=n_estimators,booster=boosters,gamma=gammas,reg_alpha=reg_alphas)
-    grid = GridSearchCV(xgb.XGBClassifier(), param_grid=param_dict, n_jobs=20)
+    grid = GridSearchCV(xgb.XGBClassifier(), param_grid=param_dict, n_jobs=20, verbose=2)
 
     print('start to train...')
     grid.fit(X, labels)
