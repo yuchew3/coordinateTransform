@@ -29,11 +29,10 @@ def load_auto_data():
     print(labels.shape)
     max_lens = np.linspace(3,8,6).astype(int)
     learning_rates = np.logspace(-2,2,5)
-    n_estimators = np.linspace(100,200,5).astype(int)
     boosters = ['gbtree', 'gblinear','dart']
     gammas = np.linspace(0.0,0.4,5)
     reg_alphas = np.logspace(-1,2,4)
-    param_dict = dict(max_depth=max_lens, learning_rate=learning_rates,n_estimators=n_estimators,booster=boosters,gamma=gammas,reg_alpha=reg_alphas)
+    param_dict = dict(max_depth=max_lens, learning_rate=learning_rates,booster=boosters,gamma=gammas,reg_alpha=reg_alphas)
     grid = GridSearchCV(xgb.XGBClassifier(), param_grid=param_dict, n_jobs=20, verbose=2)
 
     print('start to train...')
