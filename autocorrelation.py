@@ -16,6 +16,31 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
+from sklearn.model_selection import train_test_split, GridSearchCV
+
+def load_auto_data():
+    lags = 10
+    length = 2 * lags
+    fn = '../data/clf_results/autocorr_len' + str(length) + '_lag' + str(lags) + '.npy'
+    X = np.load(fn)
+    labels = ca_data_utils.load_labels()[9:39992:2]
+    labels = labels[length-1:]
+    max_lens = np.linspace(3,8,6)
+    learning_rates = np.logspace(-2,2,5)
+    n_estimators = np.linspace(100,200,5)
+    boosters = ['gbtree', 'gblinear','dart']
+    param_dict = dict(max_depth=max_lens, learning_rate=learning_rates,n_estimators=n_estimators,booster=boosters)
+    grid = GridSearchCV(xgb.XGBClassifier(), param_grid=param_dict, n_jobs=20)
+
+    print('start to train...')
+    grid.fit(X, labels)
+    print('finished')
+    df = pd.DataFrame.from_dict(grid.cv_results_)
+    filename = '../data/clf_results/autocorr_xgbooster'
+    df.to_csv(filename)
+
+
+
 
 def load_data(step):
     v = ca_data_utils.load_v_matrix().T[9:39992:step]
@@ -84,6 +109,7 @@ def one_iter(length, lags):
     np.save(fn, scores)
 
 if __name__ == "__main__":
-    for i in range(6, 11):
-        print('lags = ', i)
-        one_iter(i*2, i)
+    load_auto_data()
+    # for i in range(6, 11):
+    #     print('lags = ', i)
+    #     one_iter(i*2, i)
