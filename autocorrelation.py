@@ -25,6 +25,8 @@ def load_auto_data():
     X = np.load(fn)
     labels = ca_data_utils.load_labels()[9:39992:2]
     labels = labels[length-1:]
+    print(X.shape)
+    print(labels.shape)
     max_lens = np.linspace(3,8,6)
     learning_rates = np.logspace(-2,2,5)
     n_estimators = np.linspace(100,200,5)
